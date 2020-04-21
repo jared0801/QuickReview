@@ -1,0 +1,43 @@
+<h1><%= deck.title %></h1>
+<div>Description: <%= deck.description %></div>
+<div>
+    <a href="/decks/<%= deck.id %>/cards/new">
+        <button>Add a card</button>
+    </a>
+</div>
+<div>
+    <a href="/decks/<%= deck.id %>/edit">
+        <button>Edit</button>
+    </a>
+</div>
+<div>
+    <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
+        <input type="submit" value="Delete">
+    </form>
+</div>
+
+<br>
+<br>
+
+<% cards.forEach(function(card) { %>
+    <div>
+        <div>Question: <%= card.question %></div>
+        <div>Answer: <%= card.answer %></div>
+        <div><a href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a></div>
+        <div>
+            <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">
+                <input type="submit" value="Delete card">
+            </form>
+        </div>
+    </div>
+    <br>
+<% }); %>
+
+<!--
+Deck
+- title - string
+- description - string
+- cards - array of objects ref Card
+- reviews - array of objects ref Review
+- author - object id (ref user)
+-->

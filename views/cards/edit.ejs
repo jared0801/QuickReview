@@ -1,0 +1,18 @@
+<h1>Edit Card!</h1>
+<form action="/decks/<%= card.deck %>/cards/<%= card.id %>?_method=PUT" method="POST">
+    <div>
+        <textarea name="card[question]" placeholder="Front (question)"><%= card.question %></textarea>
+    </div>
+    <div>
+        <textarea name="card[answer]" placeholder="Back (answer)"><%= card.answer %></textarea>
+    </div>
+
+    <input type="submit">
+</form>
+
+<!--
+Card
+- front (question) - string
+- back (answer) - string
+- image - string
+-->

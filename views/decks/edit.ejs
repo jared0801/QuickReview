@@ -1,0 +1,25 @@
+<h1>Edit Deck!</h1>
+
+<form action="/decks/<%= deck.id %>?_method=PUT" method="POST">
+    Title
+    <div>
+        <input type="text" name="deck[title]" placeholder="Title" value="<%= deck.title %>">
+    </div>
+    <br>
+    Description
+    <div>
+        <textarea name="deck[description]" placeholder="Description"><%= deck.description %></textarea>
+    </div>
+
+    <br>
+    <input type="submit">
+</form>
+
+<!--
+Deck
+- title - string
+- description - string
+- cards - array of objects ref Card
+- reviews - array of objects ref Review
+- author - object id (ref user)
+-->

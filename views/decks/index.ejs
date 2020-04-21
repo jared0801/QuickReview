@@ -1,0 +1,14 @@
+<h1>Decks Index!</h1>
+<div>
+    <a href="/decks/new">Create a new deck</a>
+</div>
+
+<% decks.forEach(function(deck) { %>
+    <div>
+        <h1><%= deck.title %></h1>
+        <div>Description: <%= deck.description %></div>
+        <div>
+            <a href="/decks/<%= deck.id %>">View Deck</a>
+        </div>
+    </div>
+<% }); %>

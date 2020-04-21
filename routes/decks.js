@@ -1,5 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const { asyncErrorHandler } = require('../middleware');
+const { 
+  deckIndex, 
+  deckNew, 
+  deckCreate, 
+  deckShow,
+  deckEdit,
+  deckUpdate,
+  deckDestroy
+} = require('../controllers/decks');
 
 /*
 GET index       /decks
@@ -12,38 +22,24 @@ DELETE destroy  /decks/:id
 */
 
 /* GET decks index /decks */
-router.get('/', (req, res, next) => {
-  res.send('INDEX /decks');
-});
+router.get('/', asyncErrorHandler(deckIndex));
 
 /* GET decks new /decks/new */
-router.get('/new', (req, res, next) => {
-  res.send('GET /decks/new');
-});
+router.get('/new', deckNew);
 
 /* POST decks create /decks */
-router.post('/', (req, res, next) => {
-  res.send('CREATE /decks');
-});
+router.post('/', asyncErrorHandler(deckCreate));
 
 /* GET decks show /decks/:id */
-router.get('/:id', (req, res, next) => {
-  res.send('SHOW /decks/:id');
-});
+router.get('/:id', asyncErrorHandler(deckShow));
 
 /* GET decks edit /decks/:id/edit */
-router.get('/:id/edit', (req, res, next) => {
-  res.send('POST /decks/:id/edit');
-});
+router.get('/:id/edit', asyncErrorHandler(deckEdit));
 
 /* PUT decks update /decks/:id */
-router.put('/:id', (req, res, next) => {
-  res.send('UPDATE /decks/:id');
-});
+router.put('/:id', asyncErrorHandler(deckUpdate));
 
 /* DELETE decks destroy /decks/:id */
-router.delete('/:id', (req, res, next) => {
-  res.send('DELETE /decks/:id');
-});
+router.delete('/:id', asyncErrorHandler(deckDestroy));
 
 module.exports = router;
