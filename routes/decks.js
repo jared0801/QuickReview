@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ 'dest': 'uploads/' });
 const { asyncErrorHandler } = require('../middleware');
 const { 
   deckIndex, 
@@ -28,7 +30,7 @@ router.get('/', asyncErrorHandler(deckIndex));
 router.get('/new', deckNew);
 
 /* POST decks create /decks */
-router.post('/', asyncErrorHandler(deckCreate));
+router.post('/', upload.array('images', 4), asyncErrorHandler(deckCreate));
 
 /* GET decks show /decks/:id */
 router.get('/:id', asyncErrorHandler(deckShow));

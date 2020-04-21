@@ -3,7 +3,7 @@ User
 - email - string
 - password - string
 - username - string
-- image - string
+- image - { url: String, public_id: String }
 - decks - array of objects ref Deck
 - reviews - array of objects ref Review
 */
@@ -14,7 +14,10 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     email: String,
-    image: String,
+    image: {
+        url: String,
+        public_id: String
+    },
     decks: [
         {
             type: Schema.Types.ObjectId,

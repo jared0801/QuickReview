@@ -1,5 +1,11 @@
 const Deck = require('../models/deck');
 const Card = require('../models/card');
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'quickreview',
+    api_key: '672993711515718',
+    api_secret: process.env.CLOUDINARY_SECRET
+});
 
 module.exports = {
     /* GET decks index /decks */
@@ -13,7 +19,17 @@ module.exports = {
     },
     /* POST decks create /decks */
     async deckCreate(req, res, next) {
-        // use req.body to create a new deck
+        req.body.deck.images = [];
+        for(const file of req.files) {
+            let image = await cloudinary.v2.uploader.upload(file.path);
+            // Add image info to req.body.deck
+            req.body.deck.images.push({
+                url: image.secure_url,
+                public_id: image.public_id
+            });
+            console.log(image);
+        }
+        // use req.body.deck to create a new deck
         let deck = await Deck.create(req.body.deck);
         res.redirect(`/decks/${deck.id}`);
     },

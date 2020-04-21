@@ -1,8 +1,11 @@
 <h1>New Deck!</h1>
 
-<form action="/decks" method="POST">
+<form action="/decks" method="POST" enctype="multipart/form-data">
     <div>
         <input type="text" name="deck[title]" placeholder="Title">
+    </div>
+    <div>
+        <input type="file" accept="images/*" name="images" multiple>
     </div>
     <div>
         <textarea name="deck[description]" placeholder="Description"></textarea>

@@ -1,4 +1,9 @@
 <h1><%= deck.title %></h1>
+<div>
+    <% deck.images.forEach(function(image) { %>
+        <img src="<%= image.url %>" alt="Deck image" width="200px">
+    <% }); %>
+</div>
 <div>Description: <%= deck.description %></div>
 <div>
     <a href="/decks/<%= deck.id %>/cards/new">
