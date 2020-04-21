@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { postRegister } = require('../controllers/user');
 
 /* GET /register */
 router.get('/register', (req, res, next) => {
@@ -7,9 +8,7 @@ router.get('/register', (req, res, next) => {
 });
 
 /* POST /register */
-router.post('/register', (req, res, next) => {
-  res.send('POST /register');
-});
+router.post('/register', postRegister);
 
 /* GET /login */
 router.get('/login', (req, res, next) => {
