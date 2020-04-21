@@ -26,7 +26,7 @@ mongoose.connect(process.env.DB_CONNECTION_STRING, { useNewUrlParser: true, useU
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
-  console.log("We're connected!")
+  console.log("Succesfully connected to the database.")
 });
 
 // view engine setup
@@ -47,6 +47,9 @@ app.use(session({
 }));
 
 // Configure passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.use(User.createStrategy());
 
 passport.serializeUser(User.serializeUser());

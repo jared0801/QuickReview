@@ -1,53 +1,62 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const { postRegister } = require('../controllers/user');
+const { errorHandler } = require('../middleware');
 
-/* GET /register */
+/* GET /users/register */
 router.get('/register', (req, res, next) => {
-  res.send('GET /register');
+  res.send('GET /users/register');
 });
 
-/* POST /register */
-router.post('/register', postRegister);
+/* POST /users/register */
+router.post('/users/register', errorHandler(postRegister));
 
-/* GET /login */
+/* GET /users/login */
 router.get('/login', (req, res, next) => {
-  res.send('GET /login');
+  res.send('GET /users/login');
 });
 
-/* POST /login */
-router.post('/login', (req, res, next) => {
-  res.send('POST /login');
+/* POST /users/login */
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}));
+
+/* GET /users/logout */
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/');
 });
 
-/* GET /profile */
+/* GET /users/profile */
 router.get('/profile', (req, res, next) => {
-  res.send('GET /profile');
+  res.send('GET /users/profile');
 });
 
-/* PUT /profile/:user_id */
+/* PUT /users/profile/:user_id */
 router.put('/profile/:user_id', (req, res, next) => {
-  res.send('UPDATE /profile/:user_id');
+  res.send('UPDATE /users/profile/:user_id');
 });
 
-/* GET /forgot */
+/* GET /users/forgot */
 router.get('/forgot', (req, res, next) => {
-  res.send('GET /forgot');
+  res.send('GET /users/forgot');
 });
 
-/* PUT /forgot */
+/* PUT /users/forgot */
 router.put('/forgot', (req, res, next) => {
-  res.send('UPDATE /forgot');
+  res.send('UPDATE /users/forgot');
 });
 
-/* GET /reset/:token */
+/* GET /users/reset/:token */
 router.get('/reset/:token', (req, res, next) => {
-  res.send('GET /reset/:token');
+  res.send('GET /users/reset/:token');
 });
 
-/* PUT /reset/:token */
+/* PUT /users/reset/:token */
 router.put('/reset/:token', (req, res, next) => {
-  res.send('PUT /reset/:token');
+  res.send('PUT /users/reset/:token');
 });
 
 module.exports = router;
