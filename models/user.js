@@ -4,8 +4,8 @@ User
 - password - string
 - username - string
 - image - { url: String, public_id: String }
-- decks - array of objects ref Deck
-- reviews - array of objects ref Review
+
+Note: passportLocalMongoose handles username annd password fields
 */
 
 const mongoose = require('mongoose');
@@ -17,13 +17,7 @@ const UserSchema = new Schema({
     image: {
         url: String,
         public_id: String
-    },
-    decks: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Deck'
-        }
-    ]
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);

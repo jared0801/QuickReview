@@ -1,13 +1,22 @@
 <h1>Edit Card!</h1>
-<form action="/decks/<%= card.deck %>/cards/<%= card.id %>?_method=PUT" method="POST">
+<form action="/decks/<%= card.deck %>/cards/<%= card.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>
         <textarea name="card[question]" placeholder="Front (question)"><%= card.question %></textarea>
     </div>
     <div>
         <textarea name="card[answer]" placeholder="Back (answer)"><%= card.answer %></textarea>
     </div>
+    <div>
+        <input type="file" id="imageUpload" accept="images/*" name="image">
+        <% if(card.image && card.image.url) { %>
+            <img src="<%= card.image.url %>" width="200px" alt="" />
+            <label for="deleteImage">Delete?</label>
+            <input type="checkbox" name="deleteImage" id="deleteImage" value="<%= card.image.public_id %>" class="imageDeleteCheckbox">
+        <% } %>
+    </div>
 
     <input type="submit">
+    <input type="button" onclick="history.back()" value="Cancel">
 </form>
 
 <!--

@@ -28,6 +28,11 @@
     <div>
         <div>Question: <%= card.question %></div>
         <div>Answer: <%= card.answer %></div>
+        <% if(card.image && card.image.url) { %>
+            <div>
+                <img src="<%= card.image.url %>" width="200px"/>
+            </div>
+        <% } %>
         <div><a href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a></div>
         <div>
             <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">

@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const multer = require('multer');
+const upload = multer({ 'dest': 'uploads/' });
 const { asyncErrorHandler } = require('../middleware');
 const { 
   cardNew, 
@@ -25,13 +27,13 @@ DELETE destroy  /decks/:id/cards/:card_id
 router.get('/new', cardNew);
 
 /* POST decks create /decks/:id/cards */
-router.post('/', asyncErrorHandler(cardCreate));
+router.post('/', upload.array('image', 1), asyncErrorHandler(cardCreate));
 
 /* GET cards edit /decks/:id/cards/:card_id/edit */
 router.get('/:card_id/edit', asyncErrorHandler(cardEdit));
 
 /* PUT cards update /decks/:id/cards/:card_id */
-router.put('/:card_id', asyncErrorHandler(cardUpdate));
+router.put('/:card_id', upload.array('image', 1), asyncErrorHandler(cardUpdate));
 
 /* DELETE cards destroy /decks/:id/cards/:card_id */
 router.delete('/:card_id', asyncErrorHandler(cardDestroy));

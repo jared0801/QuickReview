@@ -1,4 +1,10 @@
 const Card = require('../models/card');
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'quickreview',
+    api_key: '672993711515718',
+    api_secret: process.env.CLOUDINARY_SECRET
+});
 
 module.exports = {
     /* GET cards new /decks/:id/cards/new */
@@ -7,7 +13,16 @@ module.exports = {
     },
     /* POST cards create /decks/:id/cards */
     async cardCreate(req, res, next) {
-        // Associate the new card with it's deck
+        if(req.files) {
+            const file = req.files[0];
+            let image = await cloudinary.v2.uploader.upload(file.path);
+            // Add image info to req.body.card
+            req.body.card.image = {
+                url: image.secure_url,
+                public_id: image.public_id
+            };
+        }
+        // Add deck info to req.body.card
         req.body.card.deck = req.params.id;
         // use req.body.card to create a new card
         await Card.create(req.body.card);
@@ -20,7 +35,29 @@ module.exports = {
     },
     /* PUT cards update /decks/:id/cards/:card_id */
     async cardUpdate(req, res, next) {
+        // Update card based on req.body.card
         let card = await Card.findByIdAndUpdate(req.params.card_id, req.body.card);
+
+        if((req.files && req.files.length && card.image.public_id) || req.body.deleteImage) {
+                // Delete old image
+                await cloudinary.v2.uploader.destroy(card.image.public_id);
+                card.image = null;
+        }
+
+        if(req.files && req.files.length) {
+            // Upload new image
+            const file = req.files[0];
+            let image = await cloudinary.v2.uploader.upload(file.path);
+            // Add image info to req.body.card
+            card.image = {
+                url: image.secure_url,
+                public_id: image.public_id
+            };
+        }
+
+        // Save changes made to card.image
+        card.save();
+
         res.redirect(`/decks/${card.deck}`);
     },
     /* DELETE cards destroy /decks/:id/cards/:card_id */

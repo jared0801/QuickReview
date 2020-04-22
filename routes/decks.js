@@ -39,7 +39,7 @@ router.get('/:id', asyncErrorHandler(deckShow));
 router.get('/:id/edit', asyncErrorHandler(deckEdit));
 
 /* PUT decks update /decks/:id */
-router.put('/:id', asyncErrorHandler(deckUpdate));
+router.put('/:id', upload.array('images', 4), asyncErrorHandler(deckUpdate));
 
 /* DELETE decks destroy /decks/:id */
 router.delete('/:id', asyncErrorHandler(deckDestroy));

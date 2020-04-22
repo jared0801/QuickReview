@@ -27,7 +27,6 @@ module.exports = {
                 url: image.secure_url,
                 public_id: image.public_id
             });
-            console.log(image);
         }
         // use req.body.deck to create a new deck
         let deck = await Deck.create(req.body.deck);
@@ -46,7 +45,39 @@ module.exports = {
     },
     /* PUT decks update /decks/:id */
     async deckUpdate(req, res, next) {
+        // Update the deck with any new properties in req.body.deck
         let deck = await Deck.findByIdAndUpdate(req.params.id, req.body.deck);
+
+        // handle any deletion of existing images
+        let deleteImages = req.body.deleteImages;
+        if(deleteImages && deleteImages.length) {
+            // Loop over each image in deleteImages
+            for(const public_id of deleteImages) {
+                // Delete image from cloudinary and deck.images
+                await cloudinary.v2.uploader.destroy(public_id);
+                for(const image of deck.images) {
+                    if(image.public_id === public_id) {
+                        let index = deck.images.indexOf(image);
+                        deck.images.splice(index, 1);
+                    }
+                }
+            }
+        }
+        // check for any new images to upload
+        if(req.files) {
+            for(const file of req.files) {
+                let image = await cloudinary.v2.uploader.upload(file.path);
+                // Add images to deck.images array
+                deck.images.push({
+                    url: image.secure_url,
+                    public_id: image.public_id
+                });
+            }
+        }
+
+        // Save the updated deck to the db
+        deck.save();
+        
         res.redirect(`/decks/${deck.id}`);
     },
     /* DELETE decks destroy /decks/:id */
