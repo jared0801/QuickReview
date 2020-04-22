@@ -82,7 +82,26 @@ module.exports = {
     },
     /* DELETE decks destroy /decks/:id */
     async deckDestroy(req, res, next) {
-        await Deck.findByIdAndDelete(req.params.id);
+        let deck = await Deck.findById(req.params.id);
+        console.log(deck.id);
+
+        // Delete associated deck images
+        for(const image of deck.images) {
+            await cloudinary.v2.uploader.destroy(image.public_id);
+        }
+
+        // Delete associated cards
+        let cards = await Card.find({ deck: deck.id });
+        for(const card of cards) {
+            if(card.image && card.image.public_id) {
+                await cloudinary.v2.uploader.destroy(card.image.public_id);
+            }
+            await card.remove();
+        }
+
+        // Delete the deck itself from db
+        console.log(deck.remove);
+        await deck.remove();
         res.redirect('/decks');
     }
 }

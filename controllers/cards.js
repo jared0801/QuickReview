@@ -38,7 +38,8 @@ module.exports = {
         // Update card based on req.body.card
         let card = await Card.findByIdAndUpdate(req.params.card_id, req.body.card);
 
-        if((req.files && req.files.length && card.image.public_id) || req.body.deleteImage) {
+        if((req.files && req.files.length && card.image.public_id) || 
+            req.body.deleteImage) {
                 // Delete old image
                 await cloudinary.v2.uploader.destroy(card.image.public_id);
                 card.image = null;
@@ -62,7 +63,11 @@ module.exports = {
     },
     /* DELETE cards destroy /decks/:id/cards/:card_id */
     async cardDestroy(req, res, next) {
-        let card = await Card.findByIdAndDelete(req.params.card_id);
+        let card = await Card.findById(req.params.card_id);
+        if(card.image && card.image.public_id) {
+            await cloudinary.v2.uploader.destroy(card.image.public_id);
+        }
+        await card.remove();
         res.redirect(`/decks/${card.deck}`);
     }
 }
