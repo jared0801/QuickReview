@@ -1,3 +1,4 @@
+<% layout('layouts/boilerplate') -%>
 <h1>Edit Card!</h1>
 <form action="/decks/<%= card.deck %>/cards/<%= card.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
     <div>

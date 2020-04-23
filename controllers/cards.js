@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { ErrorMsg, SuccessMsg } = require('../messages');
 const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name: 'quickreview',
@@ -13,7 +14,7 @@ module.exports = {
     },
     /* POST cards create /decks/:id/cards */
     async cardCreate(req, res, next) {
-        if(req.files) {
+        if(req.files && req.files.length) {
             const file = req.files[0];
             let image = await cloudinary.v2.uploader.upload(file.path);
             // Add image info to req.body.card
@@ -26,12 +27,17 @@ module.exports = {
         req.body.card.deck = req.params.id;
         // use req.body.card to create a new card
         await Card.create(req.body.card);
+        req.session.success = SuccessMsg.CARD_CREATED;
         res.redirect(`/decks/${req.params.id}`);
     },
     /* GET cards edit /decks/:id/cards/:card_id/edit */
     async cardEdit(req, res, next) {
-        let card = await Card.findById(req.params.card_id);
-        res.render('cards/edit', { card });
+        try {
+            let card = await Card.findById(req.params.card_id);
+            res.render('cards/edit', { card });
+        } catch(e) {
+            throw new Error(ErrorMsg.CARD_NOT_FOUND);
+        }
     },
     /* PUT cards update /decks/:id/cards/:card_id */
     async cardUpdate(req, res, next) {
@@ -58,6 +64,7 @@ module.exports = {
 
         // Save changes made to card.image
         card.save();
+        req.session.success = SuccessMsg.CARD_UPDATED;
 
         res.redirect(`/decks/${card.deck}`);
     },
@@ -68,6 +75,7 @@ module.exports = {
             await cloudinary.v2.uploader.destroy(card.image.public_id);
         }
         await card.remove();
+        req.session.success = SuccessMsg.CARD_DELETED;
         res.redirect(`/decks/${card.deck}`);
     }
 }

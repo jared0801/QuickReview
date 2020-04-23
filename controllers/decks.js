@@ -1,5 +1,7 @@
 const Deck = require('../models/deck');
 const Card = require('../models/card');
+const { ErrorMsg, SuccessMsg } = require('../messages');
+
 const cloudinary = require('cloudinary');
 cloudinary.config({
     cloud_name: 'quickreview',
@@ -30,13 +32,18 @@ module.exports = {
         }
         // use req.body.deck to create a new deck
         let deck = await Deck.create(req.body.deck);
+        req.session.success = SuccessMsg.DECK_CREATED;
         res.redirect(`/decks/${deck.id}`);
     },
     /* GET decks show /decks/:id */
     async deckShow(req, res, next) {
-        let deck = await Deck.findById(req.params.id);
-        let cards = await Card.find({ deck: deck.id });
-        res.render('decks/show', { deck, cards });
+        try {
+            let deck = await Deck.findById(req.params.id);
+            let cards = await Card.find({ deck: deck.id });
+            res.render('decks/show', { deck, cards });
+        } catch(e) {
+            throw new Error(ErrorMsg.DECK_NOT_FOUND);
+        }
     },
     /* GET decks edit /decks/:id/edit */
     async deckEdit(req, res, next) {
@@ -78,6 +85,7 @@ module.exports = {
         // Save the updated deck to the db
         deck.save();
         
+        req.session.success = SuccessMsg.DECK_UPDATED;
         res.redirect(`/decks/${deck.id}`);
     },
     /* DELETE decks destroy /decks/:id */
@@ -102,6 +110,7 @@ module.exports = {
         // Delete the deck itself from db
         console.log(deck.remove);
         await deck.remove();
+        req.session.success = SuccessMsg.DECK_DELETED;
         res.redirect('/decks');
     }
 }
