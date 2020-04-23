@@ -9,7 +9,7 @@ router.get('/register', (req, res, next) => {
 });
 
 /* POST /users/register */
-router.post('/users/register', asyncErrorHandler(postRegister));
+router.post('/register', asyncErrorHandler(postRegister));
 
 /* GET /users/login */
 router.get('/login', (req, res, next) => {
