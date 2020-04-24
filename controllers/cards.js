@@ -1,12 +1,7 @@
 const Deck = require('../models/deck');
 const Card = require('../models/card');
 const { ErrorMsg, SuccessMsg } = require('../messages');
-const cloudinary = require('cloudinary');
-cloudinary.config({
-    cloud_name: 'quickreview',
-    api_key: '672993711515718',
-    api_secret: process.env.CLOUDINARY_SECRET
-});
+const { cloudinary } = require('../cloudinary');
 
 module.exports = {
     /* GET cards new /decks/:id/cards/new */
@@ -19,11 +14,10 @@ module.exports = {
             let deck = await Deck.findById(req.params.id);
             if(req.files && req.files.length) {
                 const file = req.files[0];
-                let image = await cloudinary.v2.uploader.upload(file.path);
                 // Add image info to req.body.card
                 req.body.card.image = {
-                    url: image.secure_url,
-                    public_id: image.public_id
+                    url: file.secure_url,
+                    public_id: file.public_id
                 };
             }
             // Add deck info to req.body.card
@@ -65,11 +59,10 @@ module.exports = {
             if(req.files && req.files.length) {
                 // Upload new image
                 const file = req.files[0];
-                let image = await cloudinary.v2.uploader.upload(file.path);
                 // Add image info to req.body.card
                 card.image = {
-                    url: image.secure_url,
-                    public_id: image.public_id
+                    url: file.secure_url,
+                    public_id: file.public_id
                 };
             }
 

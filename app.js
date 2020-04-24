@@ -1,3 +1,5 @@
+
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const engine = require('ejs-mate');
@@ -8,7 +10,8 @@ const logger = require('morgan');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-require('dotenv').config();
+// const SeedDecks = require('./seeds');
+// SeedDecks();
 
 // Require models
 const User = require('./models/user');
@@ -63,11 +66,13 @@ passport.deserializeUser(User.deserializeUser());
 // Set local variables middleware
 app.use((req, res, next) => {
 
-  req.user = {
-    '_id': '5ea20cb41942fb1580f1b227',
-    'username': 'test'
+  if(process.env.NODE_ENV === 'development') {
+    req.user = {
+      '_id': '5e9f3c4838c792294022388b',
+      'username': 'jared2'
+    }
+    res.locals.currentUser = req.user;
   }
-  res.locals.currentUser = req.user;
 
   // Set page title
   res.locals.title = "Quick Review";
