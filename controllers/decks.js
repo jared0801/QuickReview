@@ -52,7 +52,8 @@ module.exports = {
             //let cards = await Card.find({ deck: deck.id });
             res.render('decks/show', { deck });
         } catch(e) {
-            throw new Error(ErrorMsg.DECK_NOT_FOUND);
+            req.session.error = ErrorMsg.DECK_NOT_FOUND;
+            res.redirect('/decks');
         }
     },
     /* GET decks edit /decks/:id/edit */

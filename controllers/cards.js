@@ -85,11 +85,22 @@ module.exports = {
     /* DELETE cards destroy /decks/:id/cards/:card_id */
     async cardDestroy(req, res, next) {
         try {
+            try {
+                // Remove this card from it's deck's cards array
+                await Deck.findByIdAndUpdate(req.params.id, {
+                    $pull: { cards: req.params.card_id }
+                });
+            } catch(e) {
+                throw new Error(ErrorMsg.DECK_NOT_FOUND);
+            }
             let card = await Card.findById(req.params.card_id);
+
+            // Delete image associated with this card
             if(card.image && card.image.public_id) {
                 await cloudinary.v2.uploader.destroy(card.image.public_id);
             }
             await card.remove();
+            
             req.session.success = SuccessMsg.CARD_DELETED;
             res.redirect(`/decks/${req.params.id}`);
         } catch(e) {
