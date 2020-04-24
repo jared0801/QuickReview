@@ -117,21 +117,13 @@ module.exports = {
                 await cloudinary.v2.uploader.destroy(image.public_id);
             }
 
-            // Delete associated cards
-            //let cards = await Card.find({ deck: deck.id });
-            let cards = deck.cards;
-            for(const card of cards) {
-                if(card.image && card.image.public_id) {
-                    await cloudinary.v2.uploader.destroy(card.image.public_id);
-                }
-                await card.remove();
-            }
-
             // Delete the deck itself from db
+            // cards & reviews handled by deck model remove hook
             await deck.remove();
             req.session.success = SuccessMsg.DECK_DELETED;
             res.redirect('/decks');
         } catch(e) {
+            console.log(e);
             throw new Error(ErrorMsg.DECK_NOT_DELETED);
         }
     }
