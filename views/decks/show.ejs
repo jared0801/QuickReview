@@ -25,7 +25,8 @@
 <br>
 <br>
 
-<% cards.forEach(function(card) { %>
+<h2>Cards</h2>
+<% deck.cards.forEach(function(card) { %>
     <div>
         <div>Question: <%= card.question %></div>
         <div>Answer: <%= card.answer %></div>
@@ -44,6 +45,42 @@
     <br>
 <% }); %>
 
+<h2>Create a Review</h2>
+<form action="/decks/<%= deck.id %>/reviews" method="POST">
+    <textarea placeholder="Leave a review..." name="review[body]" cols="30" rows="10"></textarea>
+    <br>
+    <label for="reviewRating">Rate from 1-5:</label>
+    <input type="number" id="reviewRating" name="review[rating]" min="1" max="5" step="1" required>
+    <br>
+    
+    <input type="submit">
+</form>
+
+<h3>Reviews</h3>
+<% deck.reviews.forEach(function(review) { %>
+    <div>
+        Author: <%= review.author.username %>
+        <br>
+        <%= review.body %>
+        <br>
+        Rating: <%= review.rating %>
+    </div>
+    <div>
+        <button class="toggle-edit-form">Edit</button>
+
+        <form action="/decks/<%= deck.id %>/reviews/<%= review.id %>?_method=PUT" method="POST" class="edit-review-form">
+            <textarea placeholder="Leave a review..." name="review[body]" cols="30" rows="10"><%= review.body %></textarea>
+            <br>
+            <label for="reviewRating">Rate from 1-5:</label>
+            <input type="number" id="reviewRating" name="review[rating]" min="1" max="5" step="1" value="<%= review.rating %>" required>
+            <br>
+            
+            <input type="submit" value="Update">
+        </form>
+    </div>
+    <hr>
+<% }); %>
+
 <!--
 Deck
 - title - string
@@ -52,3 +89,5 @@ Deck
 - reviews - array of objects ref Review
 - author - object id (ref user)
 -->
+
+<script src="/javascripts/deck-show.js"></script>

@@ -20,7 +20,19 @@ const DeckSchema = new Schema({
             url: String,
             public_id: String
         }
-    ]
+    ],
+	reviews: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Review'
+		}
+	],
+	cards: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Card'
+		}
+	]
 });
 
 module.exports = mongoose.model('Deck', DeckSchema);

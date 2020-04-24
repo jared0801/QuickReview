@@ -62,6 +62,13 @@ passport.deserializeUser(User.deserializeUser());
 
 // Set local variables middleware
 app.use((req, res, next) => {
+
+  req.user = {
+    '_id': '5ea20cb41942fb1580f1b227',
+    'username': 'test'
+  }
+  res.locals.currentUser = req.user;
+
   // Set page title
   res.locals.title = "Quick Review";
 
@@ -97,6 +104,7 @@ app.use((err, req, res, next) => {
   // render the error page
   // res.status(err.status || 500);
   // res.render('error');
+  console.log(req.url);
   console.log(err);
   req.session.error = err.message;
   res.redirect('back');

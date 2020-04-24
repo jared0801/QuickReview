@@ -1,3 +1,4 @@
+const Deck = require('../models/deck');
 const Card = require('../models/card');
 const { ErrorMsg, SuccessMsg } = require('../messages');
 const cloudinary = require('cloudinary');
@@ -14,68 +15,85 @@ module.exports = {
     },
     /* POST cards create /decks/:id/cards */
     async cardCreate(req, res, next) {
-        if(req.files && req.files.length) {
-            const file = req.files[0];
-            let image = await cloudinary.v2.uploader.upload(file.path);
-            // Add image info to req.body.card
-            req.body.card.image = {
-                url: image.secure_url,
-                public_id: image.public_id
-            };
+        try {
+            let deck = await Deck.findById(req.params.id);
+            if(req.files && req.files.length) {
+                const file = req.files[0];
+                let image = await cloudinary.v2.uploader.upload(file.path);
+                // Add image info to req.body.card
+                req.body.card.image = {
+                    url: image.secure_url,
+                    public_id: image.public_id
+                };
+            }
+            // Add deck info to req.body.card
+            //req.body.card.deck = req.params.id;
+            // use req.body.card to create a new card
+            let card = await Card.create(req.body.card);
+            // associated this card with its deck
+            deck.cards.push(card);
+            deck.save();
+
+            req.session.success = SuccessMsg.CARD_CREATED;
+            res.redirect(`/decks/${deck.id}`);
+        } catch(e) {
+            throw new Error(ErrorMsg.CARD_NOT_CREATED);
         }
-        // Add deck info to req.body.card
-        req.body.card.deck = req.params.id;
-        // use req.body.card to create a new card
-        await Card.create(req.body.card);
-        req.session.success = SuccessMsg.CARD_CREATED;
-        res.redirect(`/decks/${req.params.id}`);
     },
     /* GET cards edit /decks/:id/cards/:card_id/edit */
     async cardEdit(req, res, next) {
         try {
             let card = await Card.findById(req.params.card_id);
-            res.render('cards/edit', { card });
+            res.render('cards/edit', { card, deckId: req.params.id });
         } catch(e) {
             throw new Error(ErrorMsg.CARD_NOT_FOUND);
         }
     },
     /* PUT cards update /decks/:id/cards/:card_id */
     async cardUpdate(req, res, next) {
-        // Update card based on req.body.card
-        let card = await Card.findByIdAndUpdate(req.params.card_id, req.body.card);
+        try {
+            // Update card based on req.body.card
+            let card = await Card.findByIdAndUpdate(req.params.card_id, req.body.card);
 
-        if((req.files && req.files.length && card.image.public_id) || 
-            req.body.deleteImage) {
-                // Delete old image
-                await cloudinary.v2.uploader.destroy(card.image.public_id);
-                card.image = null;
+            if((req.files && req.files.length && card.image.public_id) || 
+                req.body.deleteImage) {
+                    // Delete old image
+                    await cloudinary.v2.uploader.destroy(card.image.public_id);
+                    card.image = null;
+            }
+
+            if(req.files && req.files.length) {
+                // Upload new image
+                const file = req.files[0];
+                let image = await cloudinary.v2.uploader.upload(file.path);
+                // Add image info to req.body.card
+                card.image = {
+                    url: image.secure_url,
+                    public_id: image.public_id
+                };
+            }
+
+            // Save changes made to card.image
+            card.save();
+            req.session.success = SuccessMsg.CARD_UPDATED;
+
+            res.redirect(`/decks/${req.params.id}`);
+        } catch(e) {
+            throw new Error(ErrorMsg.CARD_NOT_UPDATED);
         }
-
-        if(req.files && req.files.length) {
-            // Upload new image
-            const file = req.files[0];
-            let image = await cloudinary.v2.uploader.upload(file.path);
-            // Add image info to req.body.card
-            card.image = {
-                url: image.secure_url,
-                public_id: image.public_id
-            };
-        }
-
-        // Save changes made to card.image
-        card.save();
-        req.session.success = SuccessMsg.CARD_UPDATED;
-
-        res.redirect(`/decks/${card.deck}`);
     },
     /* DELETE cards destroy /decks/:id/cards/:card_id */
     async cardDestroy(req, res, next) {
-        let card = await Card.findById(req.params.card_id);
-        if(card.image && card.image.public_id) {
-            await cloudinary.v2.uploader.destroy(card.image.public_id);
+        try {
+            let card = await Card.findById(req.params.card_id);
+            if(card.image && card.image.public_id) {
+                await cloudinary.v2.uploader.destroy(card.image.public_id);
+            }
+            await card.remove();
+            req.session.success = SuccessMsg.CARD_DELETED;
+            res.redirect(`/decks/${req.params.id}`);
+        } catch(e) {
+            throw new Error(ErrorMsg.CARD_NOT_DELETED);
         }
-        await card.remove();
-        req.session.success = SuccessMsg.CARD_DELETED;
-        res.redirect(`/decks/${card.deck}`);
     }
 }

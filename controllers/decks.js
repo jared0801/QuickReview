@@ -1,5 +1,4 @@
 const Deck = require('../models/deck');
-const Card = require('../models/card');
 const { ErrorMsg, SuccessMsg } = require('../messages');
 
 const cloudinary = require('cloudinary');
@@ -30,87 +29,109 @@ module.exports = {
                 public_id: image.public_id
             });
         }
-        // use req.body.deck to create a new deck
-        let deck = await Deck.create(req.body.deck);
-        req.session.success = SuccessMsg.DECK_CREATED;
-        res.redirect(`/decks/${deck.id}`);
+        try {
+            // use req.body.deck to create a new deck
+            let deck = await Deck.create(req.body.deck);
+            req.session.success = SuccessMsg.DECK_CREATED;
+            res.redirect(`/decks/${deck.id}`);
+        } catch(e) {
+            throw new Error(ErrorMsg.DECK_NOT_CREATED);
+        }
     },
     /* GET decks show /decks/:id */
     async deckShow(req, res, next) {
         try {
-            let deck = await Deck.findById(req.params.id);
-            let cards = await Card.find({ deck: deck.id });
-            res.render('decks/show', { deck, cards });
+            let deck = await Deck.findById(req.params.id).populate({
+                path: 'reviews',
+                options: { sort: { '_id': -1 }}, // descending order
+                populate: {
+                    path: 'author',
+                    model: 'User'
+                }
+            }).populate('cards');
+            //let cards = await Card.find({ deck: deck.id });
+            res.render('decks/show', { deck });
         } catch(e) {
             throw new Error(ErrorMsg.DECK_NOT_FOUND);
         }
     },
     /* GET decks edit /decks/:id/edit */
     async deckEdit(req, res, next) {
-        let deck = await Deck.findById(req.params.id);
-        res.render('decks/edit', { deck });
+        try {
+            let deck = await Deck.findById(req.params.id);
+            res.render('decks/edit', { deck });
+        } catch(e) {
+            throw new Error(ErrorMsg.CARD_NOT_FOUND);
+        }
     },
     /* PUT decks update /decks/:id */
     async deckUpdate(req, res, next) {
-        // Update the deck with any new properties in req.body.deck
-        let deck = await Deck.findByIdAndUpdate(req.params.id, req.body.deck);
+        try {
+            // Update the deck with any new properties in req.body.deck
+            let deck = await Deck.findByIdAndUpdate(req.params.id, req.body.deck);
 
-        // handle any deletion of existing images
-        let deleteImages = req.body.deleteImages;
-        if(deleteImages && deleteImages.length) {
-            // Loop over each image in deleteImages
-            for(const public_id of deleteImages) {
-                // Delete image from cloudinary and deck.images
-                await cloudinary.v2.uploader.destroy(public_id);
-                for(const image of deck.images) {
-                    if(image.public_id === public_id) {
-                        let index = deck.images.indexOf(image);
-                        deck.images.splice(index, 1);
+            // handle any deletion of existing images
+            let deleteImages = req.body.deleteImages;
+            if(deleteImages && deleteImages.length) {
+                // Loop over each image in deleteImages
+                for(const public_id of deleteImages) {
+                    // Delete image from cloudinary and deck.images
+                    await cloudinary.v2.uploader.destroy(public_id);
+                    for(const image of deck.images) {
+                        if(image.public_id === public_id) {
+                            let index = deck.images.indexOf(image);
+                            deck.images.splice(index, 1);
+                        }
                     }
                 }
             }
-        }
-        // check for any new images to upload
-        if(req.files) {
-            for(const file of req.files) {
-                let image = await cloudinary.v2.uploader.upload(file.path);
-                // Add images to deck.images array
-                deck.images.push({
-                    url: image.secure_url,
-                    public_id: image.public_id
-                });
+            // check for any new images to upload
+            if(req.files) {
+                for(const file of req.files) {
+                    let image = await cloudinary.v2.uploader.upload(file.path);
+                    // Add images to deck.images array
+                    deck.images.push({
+                        url: image.secure_url,
+                        public_id: image.public_id
+                    });
+                }
             }
-        }
 
-        // Save the updated deck to the db
-        deck.save();
-        
-        req.session.success = SuccessMsg.DECK_UPDATED;
-        res.redirect(`/decks/${deck.id}`);
+            // Save the updated deck to the db
+            deck.save();
+            
+            req.session.success = SuccessMsg.DECK_UPDATED;
+            res.redirect(`/decks/${deck.id}`);
+        } catch(e) {
+            throw new Error(ErrorMsg.DECK_NOT_UPDATED);
+        }
     },
     /* DELETE decks destroy /decks/:id */
     async deckDestroy(req, res, next) {
-        let deck = await Deck.findById(req.params.id);
-        console.log(deck.id);
+        try {
+            let deck = await Deck.findById(req.params.id);
 
-        // Delete associated deck images
-        for(const image of deck.images) {
-            await cloudinary.v2.uploader.destroy(image.public_id);
-        }
-
-        // Delete associated cards
-        let cards = await Card.find({ deck: deck.id });
-        for(const card of cards) {
-            if(card.image && card.image.public_id) {
-                await cloudinary.v2.uploader.destroy(card.image.public_id);
+            // Delete associated deck images
+            for(const image of deck.images) {
+                await cloudinary.v2.uploader.destroy(image.public_id);
             }
-            await card.remove();
-        }
 
-        // Delete the deck itself from db
-        console.log(deck.remove);
-        await deck.remove();
-        req.session.success = SuccessMsg.DECK_DELETED;
-        res.redirect('/decks');
+            // Delete associated cards
+            //let cards = await Card.find({ deck: deck.id });
+            let cards = deck.cards;
+            for(const card of cards) {
+                if(card.image && card.image.public_id) {
+                    await cloudinary.v2.uploader.destroy(card.image.public_id);
+                }
+                await card.remove();
+            }
+
+            // Delete the deck itself from db
+            await deck.remove();
+            req.session.success = SuccessMsg.DECK_DELETED;
+            res.redirect('/decks');
+        } catch(e) {
+            throw new Error(ErrorMsg.DECK_NOT_DELETED);
+        }
     }
 }
