@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 const multer = require('multer');
-const { cloundinary, storage } = require('../cloudinary');
+const { storage } = require('../cloudinary');
 const upload = multer({ storage });
-const { asyncErrorHandler } = require('../middleware');
+const { 
+  asyncErrorHandler,
+  isLoggedIn,
+  isAuthor
+} = require('../middleware');
 const { 
   cardNew, 
   cardCreate, 
@@ -25,18 +29,18 @@ DELETE destroy  /decks/:id/cards/:card_id
 //router.get('/', asyncErrorHandler(getCards));
 
 /* POST cards create /decks/:id/cards/new */
-router.get('/new', cardNew);
+router.get('/new', isLoggedIn, asyncErrorHandler(isAuthor), cardNew);
 
 /* POST decks create /decks/:id/cards */
-router.post('/', upload.array('image', 1), asyncErrorHandler(cardCreate));
+router.post('/', isLoggedIn, asyncErrorHandler(isAuthor), upload.array('image', 1), asyncErrorHandler(cardCreate));
 
 /* GET cards edit /decks/:id/cards/:card_id/edit */
-router.get('/:card_id/edit', asyncErrorHandler(cardEdit));
+router.get('/:card_id/edit', isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(cardEdit));
 
 /* PUT cards update /decks/:id/cards/:card_id */
-router.put('/:card_id', upload.array('image', 1), asyncErrorHandler(cardUpdate));
+router.put('/:card_id', isLoggedIn, asyncErrorHandler(isAuthor), upload.array('image', 1), asyncErrorHandler(cardUpdate));
 
 /* DELETE cards destroy /decks/:id/cards/:card_id */
-router.delete('/:card_id', asyncErrorHandler(cardDestroy));
+router.delete('/:card_id', isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(cardDestroy));
 
 module.exports = router;

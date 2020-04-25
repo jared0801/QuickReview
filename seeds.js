@@ -8,10 +8,7 @@ async function seedDecks() {
         const deck = {
             title: faker.lorem.word(),
             description: faker.lorem.text(),
-            author: {
-                '_id': '5ea20cb41942fb1580f1b227',
-                'username': 'test'
-            }
+            author: '5ea20cb41942fb1580f1b227'
         }
         await Deck.create(deck);
     }

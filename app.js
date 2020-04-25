@@ -66,13 +66,13 @@ passport.deserializeUser(User.deserializeUser());
 // Set local variables middleware
 app.use((req, res, next) => {
 
-  if(process.env.NODE_ENV === 'development') {
+  /*if(process.env.NODE_ENV === 'development') {
     req.user = {
       '_id': '5e9f3c4838c792294022388b',
       'username': 'jared2'
     }
-    res.locals.currentUser = req.user;
-  }
+  }*/
+  res.locals.currentUser = req.user;
 
   // Set page title
   res.locals.title = "Quick Review";

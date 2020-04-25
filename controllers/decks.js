@@ -27,6 +27,7 @@ module.exports = {
             });
         }
         try {
+            req.body.deck.author = req.user._id;
             // use req.body.deck to create a new deck
             let deck = await Deck.create(req.body.deck);
             req.session.success = SuccessMsg.DECK_CREATED;
@@ -55,19 +56,16 @@ module.exports = {
         }
     },
     /* GET decks edit /decks/:id/edit */
-    async deckEdit(req, res, next) {
-        try {
-            let deck = await Deck.findById(req.params.id);
-            res.render('decks/edit', { deck });
-        } catch(e) {
-            throw new Error(ErrorMsg.CARD_NOT_FOUND);
-        }
+    deckEdit(req, res, next) {
+        res.render('decks/edit');
     },
     /* PUT decks update /decks/:id */
     async deckUpdate(req, res, next) {
         try {
             // Update the deck with any new properties in req.body.deck
-            let deck = await Deck.findByIdAndUpdate(req.params.id, req.body.deck);
+            //let deck = await Deck.findByIdAndUpdate(req.params.id, req.body.deck);
+            // Destructure deck from res.locals
+            const { deck } = res.locals;
 
             // handle any deletion of existing images
             let deleteImages = req.body.deleteImages;
@@ -107,7 +105,8 @@ module.exports = {
     /* DELETE decks destroy /decks/:id */
     async deckDestroy(req, res, next) {
         try {
-            let deck = await Deck.findById(req.params.id);
+            //let deck = await Deck.findById(req.params.id);
+            const { deck } = res.locals;
 
             // Delete the deck itself from db
             // cards, images & reviews handled by deck model remove hook
