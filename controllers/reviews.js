@@ -23,7 +23,7 @@ module.exports = {
                 // assign review to the deck
                 deck.reviews.push(review);
                 // save the deck
-                deck.save();
+                await deck.save();
                 // redirect to the deck
                 req.session.success = SuccessMsg.REVIEW_CREATED;
                 res.redirect(`/decks/${deck.id}`);

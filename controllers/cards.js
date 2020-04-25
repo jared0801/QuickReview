@@ -26,7 +26,7 @@ module.exports = {
             let card = await Card.create(req.body.card);
             // associated this card with its deck
             deck.cards.push(card);
-            deck.save();
+            await deck.save();
 
             req.session.success = SuccessMsg.CARD_CREATED;
             res.redirect(`/decks/${deck.id}`);
@@ -67,7 +67,7 @@ module.exports = {
             }
 
             // Save changes made to card.image
-            card.save();
+            await card.save();
             req.session.success = SuccessMsg.CARD_UPDATED;
 
             res.redirect(`/decks/${req.params.id}`);

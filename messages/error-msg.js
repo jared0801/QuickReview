@@ -16,5 +16,9 @@ module.exports = {
     REVIEW_NOT_DELETED: "The review was not successfully deleted. Please wait a moment and try again.",
 
     REVIEW_UPDATE_AUTH: "You can only edit your own review.",
-    NO_MULTI_REVIEWS: "You can only create one review per deck."
+    NO_MULTI_REVIEWS: "You can only create one review per deck.",
+
+    USER_EMAIL_TAKEN: "A user with the given email is already registered.",
+    USER_NOT_LOGGED_IN: "You need to be logged in to do that!",
+    USER_NOT_AUTHOR: "Access denied."
 }

@@ -1,7 +1,11 @@
 const express = require('express');
 // mergeParams allows us to access the deck id as well as review_id
 const router = express.Router({ mergeParams: true });
-const { asyncErrorHandler, isReviewAuthor } = require('../middleware');
+const {
+  asyncErrorHandler,
+  isReviewAuthor,
+  isLoggedIn
+} = require('../middleware');
 const {
   reviewCreate,
   reviewUpdate,
@@ -15,12 +19,12 @@ DELETE destroy  /decks/:id/reviews/:review_id
 */
 
 /* POST reviews create /decks/:id/reviews */
-router.post('/', asyncErrorHandler(reviewCreate));
+router.post('/', isLoggedIn, asyncErrorHandler(reviewCreate));
 
 /* PUT reviews update /decks/:id/reviews/:review_id */
-router.put('/:review_id', isReviewAuthor, asyncErrorHandler(reviewUpdate));
+router.put('/:review_id', isLoggedIn, isReviewAuthor, asyncErrorHandler(reviewUpdate));
 
 /* DELETE reviews destroy /decks/:id/reviews/:review_id */
-router.delete('/:review_id', isReviewAuthor, asyncErrorHandler(reviewDestroy));
+router.delete('/:review_id', isLoggedIn, isReviewAuthor, asyncErrorHandler(reviewDestroy));
 
 module.exports = router;

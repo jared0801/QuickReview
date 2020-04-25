@@ -10,4 +10,11 @@ module.exports = {
     CARD_DELETED: "Card deleted successfully!",
     DECK_DELETED: "Deck deleted successfully!",
     REVIEW_DELETED: "Review deleted successfully!",
+
+    WELCOME_USER: function(name) {
+        return `Welcome to Quick Review, ${name}`;
+    },
+    WELCOME_BACK_USER: function(name) {
+        return `Welcome to Quick Review, ${name}`;
+    }
 }

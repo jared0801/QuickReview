@@ -4,6 +4,9 @@ Deck
 - description - string
 - author - object id (ref user)
 - images: [{ url: String, public_id: String }]
+- reviews - [object id (ref review)]
+- cards - [object id (ref card)]
+- avgRating - number
 */
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');

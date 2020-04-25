@@ -81,7 +81,7 @@
     <input type="submit">
 </form>
 <% } else { %>
-    <textarea placeholder="Login to create a review..." name="review[body]" cols="30" rows="10" disabled></textarea>
+<a href="/users/login?returnTo=true">Login to create a review...</a>
 <% } %>
 
 
@@ -98,7 +98,7 @@
         </p>
     </div>
 
-    <% if(review.author.equals(currentUser._id)) { %>
+    <% if(currentUser && review.author.equals(currentUser._id)) { %>
         <div>
             <button class="toggle-edit-form">Edit</button>
 

@@ -94,7 +94,7 @@ module.exports = {
             }
 
             // Save the updated deck to the db
-            deck.save();
+            await deck.save();
             
             req.session.success = SuccessMsg.DECK_UPDATED;
             res.redirect(`/decks/${deck.id}`);

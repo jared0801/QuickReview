@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../models/user');
+const { ErrorMsg, SuccessMsg } = require('../messages');
 
 module.exports = {
     /* GET /users/register */
@@ -19,14 +20,14 @@ module.exports = {
             req.login(user, function(err) {
                 if(err) return next(err);
                 
-                req.session.success = `Welcome to Quick Review, ${user.username}`
+                req.session.success = SuccessMsg.WELCOME_USER(user.username);
                 res.redirect('/');
             });
         } catch(err) {
             const { username, email } = req.body;
             let error = err.message;
             if(error.includes('duplicate') && error.includes('index: email')) {
-                error = 'A user with the given email is already registered.';
+                error = ErrorMsg.USER_EMAIL_TAKEN;
             }
             res.render('register', { title: 'Register', username, email, error });
         }
@@ -34,6 +35,9 @@ module.exports = {
     /* GET /users/login */
     getLogin(req, res, next) {
         if(req.isAuthenticated()) return res.redirect('/');
+        if(req.query.returnTo) {
+            req.session.redirectTo = req.headers.referer;
+        }
         res.render('login', { title: 'Login' });
     },
     /* POST /users/login */
@@ -43,7 +47,7 @@ module.exports = {
         if(!user && error) return next(error);
         req.login(user, function(err) {
             if(err) return next(err);
-            req.session.success = `Welcome back, ${username}!`;
+            req.session.success = SuccessMsg.WELCOME_BACK_USER(username);
             const redirectUrl = req.session.redirectTo || '/';
             delete req.session.redirectTo;
             res.redirect(redirectUrl);
