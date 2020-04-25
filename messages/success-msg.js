@@ -15,6 +15,6 @@ module.exports = {
         return `Welcome to Quick Review, ${name}`;
     },
     WELCOME_BACK_USER: function(name) {
-        return `Welcome to Quick Review, ${name}`;
+        return `Welcome back, ${name}`;
     }
 }

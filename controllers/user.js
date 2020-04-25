@@ -1,5 +1,5 @@
-const passport = require('passport');
 const User = require('../models/user');
+const Deck = require('../models/deck');
 const { ErrorMsg, SuccessMsg } = require('../messages');
 
 module.exports = {
@@ -57,5 +57,10 @@ module.exports = {
     getLogout(req, res, next) {
         req.logout();
         res.redirect('/');
+    },
+    /* GET /users/profile */
+    async getProfile(req, res, next) {
+        const decks = await Deck.find().where('author').equals(req.user._id).limit(10).exec();
+        res.render('profile', { decks });
     }
 }

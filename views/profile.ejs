@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') -%>
+
+<h1><%= currentUser.username %>'s Profile</h1>
+
+<p>Recent Decks:</p>
+
+<% decks.forEach(function(deck) { %>
+<div>
+    <a href="/decks/<%= deck.id %>"><%= deck.title %></a>
+</div>
+<% }); %>
