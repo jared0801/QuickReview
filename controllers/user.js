@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Deck = require('../models/deck');
 const { ErrorMsg, SuccessMsg } = require('../messages');
+const util = require('util');
 
 module.exports = {
     /* GET /users/register */
@@ -62,5 +63,19 @@ module.exports = {
     async getProfile(req, res, next) {
         const decks = await Deck.find().where('author').equals(req.user._id).limit(10).exec();
         res.render('profile', { decks });
+    },
+    async updateProfile(req, res, next) {
+        const {
+            username,
+            email
+        } = req.body;
+        const { user } = res.locals;
+        if(username) user.username = username;
+        if(email) user.email = email;
+        await user.save();
+        const login = util.promisify(req.login.bind(req));
+        await login(user);
+        req.session.success = SuccessMsg.PROFILE_UPDATED;
+        res.redirect('/users/profile');
     }
 }

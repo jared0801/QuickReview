@@ -9,3 +9,37 @@
     <a href="/decks/<%= deck.id %>"><%= deck.title %></a>
 </div>
 <% }); %>
+
+<p>Update Info:</p>
+
+<form action="/users/profile?_method=PUT" method="POST" id="update-form">
+    <div>
+        <label for="username">Username: </label>
+        <input type="text" id="username" name="username" placeholder="username" value="<%= currentUser.username %>" autofocus required>
+    </div>
+    <div>
+        <label for="currentPassword">Current Password: </label>
+        <input type="password" id="currentPassword" name="currentPassword" placeholder="Current Password" required>
+    </div>
+    <div>
+        <label for="newPassword">New Password: </label>
+        <input type="password" id="newPassword" name="newPassword" placeholder="New Password">
+    </div>
+    <div>
+        <label for="passwordConfirmation">Confirm Password: </label>
+        <input type="password" id="passwordConfirmation" name="passwordConfirmation" placeholder="Confirm New Password">
+    </div>
+    <div id="validation-message"></div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Email" value="<%= currentUser.email %>">
+    </div>
+    <div>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image">
+    </div>
+
+    <input type="submit" id="update-profile">
+</form>
+
+<script src="/javascripts/profile.js"></script>

@@ -16,5 +16,7 @@ module.exports = {
     },
     WELCOME_BACK_USER: function(name) {
         return `Welcome back, ${name}`;
-    }
+    },
+
+    PROFILE_UPDATED: "Profile updated successfully!"
 }
