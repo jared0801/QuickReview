@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 const { 
   postRegister, 
   postLogin, 
@@ -7,7 +10,11 @@ const {
   getLogin, 
   getRegister,
   getProfile,
-  updateProfile
+  updateProfile,
+  getForgotPw,
+  putForgotPw,
+  getReset,
+  putReset
 } = require('../controllers/user');
 const {
   asyncErrorHandler,
@@ -21,6 +28,7 @@ router.get('/register', getRegister);
 
 /* POST /users/register */
 router.post('/register',
+  upload.single('image'),
   asyncErrorHandler(postRegister)
 );
 
@@ -39,29 +47,22 @@ router.get('/profile', isLoggedIn, asyncErrorHandler(getProfile));
 /* PUT /users/profile */
 router.put('/profile',
   isLoggedIn,
+  upload.single('image'),
   asyncErrorHandler(isValidPassword),
   asyncErrorHandler(changePassword),
   asyncErrorHandler(updateProfile)
 );
 
 /* GET /users/forgot */
-router.get('/forgot', (req, res, next) => {
-  res.send('GET /users/forgot');
-});
+router.get('/forgot-password', getForgotPw);
 
 /* PUT /users/forgot */
-router.put('/forgot', (req, res, next) => {
-  res.send('UPDATE /users/forgot');
-});
+router.put('/forgot-password', asyncErrorHandler(putForgotPw));
 
 /* GET /users/reset/:token */
-router.get('/reset/:token', (req, res, next) => {
-  res.send('GET /users/reset/:token');
-});
+router.get('/reset/:token', asyncErrorHandler(getReset));
 
 /* PUT /users/reset/:token */
-router.put('/reset/:token', (req, res, next) => {
-  res.send('PUT /users/reset/:token');
-});
+router.put('/reset/:token', asyncErrorHandler(putReset));
 
 module.exports = router;

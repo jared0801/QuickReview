@@ -6,6 +6,8 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.0.1",
+    "bootstrap": "^4.4.1",
     "cloudinary": "^1.21.0",
     "cookie-parser": "~1.4.5",
     "debug": "~4.1.1",

@@ -2,8 +2,9 @@ const Review = require('../models/review');
 const Deck = require('../models/deck');
 const User = require('../models/user');
 const { ErrorMsg } = require('../messages');
+const { cloudinary } = require('../cloudinary');
 
-module.exports = {
+const middleware = {
     asyncErrorHandler: (fn) =>
         (req, res, next) => {
             Promise.resolve(fn(req, res, next))
@@ -39,7 +40,8 @@ module.exports = {
             res.locals.user = user;
             next();
         } else {
-            req.sesion.error = ErrorMsg.PROFILE_INCORRECT_PASSWORD;
+            await middleware.deleteProfileImage(req);
+            req.session.error = ErrorMsg.PROFILE_INCORRECT_PASSWORD;
             return res.redirect('/users/profile');
         }
     },
@@ -50,6 +52,7 @@ module.exports = {
         } = req.body;
 
         if(newPassword && !passwordConfirmation) {
+            await middleware.deleteProfileImage(req);
             req.session.error = ErrorMsg.PROFILE_NO_PASS_CONF;
             return res.redirect('/users/profile');
         }
@@ -59,11 +62,17 @@ module.exports = {
                 await user.setPassword(newPassword);
                 next();
             } else {
+                await middleware.deleteProfileImage(req);
                 req.session.error = ErrorMsg.PROFILE_NEW_PASS_CONF;
                 return res.redirect('/users/profile');
             }
         } else {
             next();
         }
+    },
+    deleteProfileImage: async req => {
+        if(req.file) await cloudinary.v2.uploader.destroy(req.file.public_id);
     }
 }
+
+module.exports = middleware;

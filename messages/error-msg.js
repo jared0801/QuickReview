@@ -21,8 +21,12 @@ module.exports = {
     USER_EMAIL_TAKEN: "A user with the given email is already registered.",
     USER_NOT_LOGGED_IN: "You need to be logged in to do that!",
     USER_NOT_AUTHOR: "Access denied.",
+    USER_NOT_FOUND: "No account was found with that email.",
 
     PROFILE_INCORRECT_PASSWORD: "Incorrect current password!",
     PROFILE_NEW_PASS_CONF: "New passwords must match!",
-    PROFILE_NO_PASS_CONF: "Missing password confirmation!"
+    PROFILE_NO_PASS_CONF: "Missing password confirmation!",
+
+    INVALID_RESET_TOKEN: "Password reset token is invalid or has expired.",
+    PASS_CONF_MATCH: "Passwords do not match."
 }
