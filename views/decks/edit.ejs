@@ -2,35 +2,26 @@
 <h1>Edit Deck!</h1>
 
 <form id="deckEditForm" action="/decks/<%= deck.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    Title
-    <div>
-        <input type="text" name="deck[title]" placeholder="Title" value="<%= deck.title %>">
+    <div class="form-group">
+        <label for="title-input">Title</label>
+        <input class="form-control" type="text" name="deck[title]" placeholder="Title" id="title-input" value="<%= deck.title %>">
     </div>
-    <br>
-    Description
-    <div>
-        <textarea name="deck[description]" placeholder="Description"><%= deck.description %></textarea>
+    
+    <div class="form-group">
+        <label for="description-input">Description</label>
+        <textarea class="form-control" name="deck[description]" placeholder="Description" rows="5" id="description-input"><%= deck.description %></textarea>
     </div>
-    <div>
-        <input type="file" id="imageUpload" accept="images/*" name="images" multiple>
-        <% deck.images.forEach(function(image, i) { %>
-            <img src="<%= image.url %>" width="100px" alt="" />
-            <label for="image<%= i %>">Delete?</label>
-            <input type="checkbox" name="deleteImages[]" id="image<%= i %>" value="<%= image.public_id %>" class="imageDeleteCheckbox">
-        <% }); %>
+    <div class="form-group">
+        <label for="image-input">Image</label>
+        <input class="form-control-file" type="file" accept="images/*" name="image" id="image-input">
+        <small class="form-text text-muted">Optional</small>
+        <% if(deck.image && deck.image.url) { %>
+            <img src="<%= deck.image.url %>" width="200px" alt="" />
+            <label for="delete-image">Delete?</label>
+            <input type="checkbox" name="deleteImage" id="delete-image" value="<%= deck.image.public_id %>">
+        <% } %>
     </div>
 
-    <br>
-    <input type="submit">
+    <input class="btn btn-primary" type="submit">
+    <input class="btn btn-danger" type="button" onclick="history.back()" value="Cancel">
 </form>
-
-<script src="/javascripts/deck-edit.js"></script>
-
-<!--
-Deck
-- title - string
-- description - string
-- cards - array of objects ref Card
-- reviews - array of objects ref Review
-- author - object id (ref user)
--->

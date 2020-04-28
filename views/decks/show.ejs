@@ -1,69 +1,22 @@
 <% layout('layouts/boilerplate') -%>
-<h1><%= deck.title %></h1>
-<div>
-    <% deck.images.forEach(function(image) { %>
-        <img src="<%= image.url %>" alt="Deck image" width="200px">
-    <% }); %>
-</div>
-<div>Description: <%= deck.description %></div>
-<div>
-    Average Rating: <%= deck.avgRating %>
-    <p class="starability-result" data-rating="<%= roundedAvgRating %>">
-        Rated: <%= roundedAvgRating %> stars
-    </p>
-</div>
-<% if(currentUser && deck.author.equals(currentUser._id)) { %>
-<div>
-    <a href="/decks/<%= deck.id %>/cards/new">
-        <button>Add a card</button>
-    </a>
-</div>
-<div>
-    <a href="/decks/<%= deck.id %>/edit">
-        <button>Edit</button>
-    </a>
-</div>
-<div>
-    <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
-        <input type="submit" value="Delete">
-    </form>
-</div>
-<% } %>
+
+<%- include('../partials/deck-header', { deck }) %>
 
 <br>
 <br>
 
 <h2>Cards</h2>
 <% deck.cards.forEach(function(card) { %>
-    <div>
-        <div>Question: <%= card.question %></div>
-        <div>Answer: <%= card.answer %></div>
-        <% if(card.image && card.image.url) { %>
-            <div>
-                <img src="<%= card.image.url %>" width="200px"/>
-            </div>
-        <% } %>
-        <% if(currentUser && deck.author.equals(currentUser._id)) { %>
-        <div><a href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a></div>
-        <div>
-            <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">
-                <input type="submit" value="Delete card">
-            </form>
-        </div>
-        <% } %>
-    </div>
+    <%- include('../partials/card', { card }) %>
     <br>
 <% }); %>
 
 <h2>Create a Review</h2>
 <% if(currentUser) { %>
 <form action="/decks/<%= deck.id %>/reviews" method="POST">
-    <textarea placeholder="Leave a review..." name="review[body]" cols="30" rows="10" required minlength="10"></textarea>
-    <br>
-    <label for="reviewRating">Rate from 1-5:</label>
+    <textarea class="form-control" placeholder="Leave a review..." name="review[body]" rows="6" required minlength="10"></textarea>
     <fieldset class="starability-basic">
         <legend>Rating:</legend>
-        <button class="clear-rating" type="button">Clear Rating</button>
         <input type="radio" id="rate0" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
         <input type="radio" id="rate1" name="review[rating]" value="1" />
         <label for="rate1" title="Terrible">1 star</label>
@@ -75,10 +28,11 @@
         <label for="rate4" title="Very good">4 stars</label>
         <input type="radio" id="rate5" name="review[rating]" value="5" />
         <label for="rate5" title="Amazing">5 stars</label>
-      </fieldset>
-    <br>
+    </fieldset>
+      
+    <button class="clear-rating btn btn-danger" type="button">Clear Rating</button>
     
-    <input type="submit">
+    <input class="btn btn-primary" type="submit">
 </form>
 <% } else { %>
 <a href="/users/login?returnTo=true">Login to create a review...</a>
@@ -87,66 +41,8 @@
 
 <h3>Reviews</h3>
 <% deck.reviews.forEach(function(review) { %>
-    <div>
-        Author: <%= review.author.username %>
-        <br>
-        <%= review.body %>
-        <br>
-        Rating:
-        <p class="starability-result" data-rating="<%= review.rating %>">
-          Rated: <%= review.rating %> stars
-        </p>
-    </div>
-
-    <% if(currentUser && review.author.equals(currentUser._id)) { %>
-        <div>
-            <button class="toggle-edit-form">Edit</button>
-
-            <form action="/decks/<%= deck.id %>/reviews/<%= review.id %>?_method=PUT" method="POST" class="edit-review-form">
-                <textarea placeholder="Leave a review..." name="review[body]" cols="30" rows="10"><%= review.body %></textarea>
-                <br>
-                <label for="reviewRating">Rate from 1-5:</label>
-                <fieldset class="starability-basic">
-                    <legend>Rating:</legend>
-                    <button class="clear-rating" type="button">Clear Rating</button>
-                    <input type="radio" id="edit-rate0" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
-                    <input type="radio" id="edit-rate1" name="review[rating]" value="1" />
-                    <label for="edit-rate1" title="Terrible">1 star</label>
-                    <input type="radio" id="edit-rate2" name="review[rating]" value="2" />
-                    <label for="edit-rate2" title="Not good">2 stars</label>
-                    <input type="radio" id="edit-rate3" name="review[rating]" value="3" />
-                    <label for="edit-rate3" title="Average">3 stars</label>
-                    <input type="radio" id="edit-rate4" name="review[rating]" value="4" />
-                    <label for="edit-rate4" title="Very good">4 stars</label>
-                    <input type="radio" id="edit-rate5" name="review[rating]" value="5" />
-                    <label for="edit-rate5" title="Amazing">5 stars</label>
-                  </fieldset>
-                
-                <br>
-                
-                <input type="submit" value="Update">
-            </form>
-
-            <script>
-                $('#edit-rate<%= review.rating %>').prop('checked', true);
-            </script>
-        </div>
-        <div>
-            <form action="/decks/<%= deck.id %>/reviews/<%= review.id %>?_method=DELETE" method="POST">
-                <input type="submit" value="Delete">
-            </form>
-        </div>
-    <% } %>
-    <hr>
+    <%- include('../partials/review', { review }) %>
 <% }); %>
 
-<!--
-Deck
-- title - string
-- description - string
-- cards - array of objects ref Card
-- reviews - array of objects ref Review
-- author - object id (ref user)
--->
 
 <script src="/javascripts/deck-show.js"></script>

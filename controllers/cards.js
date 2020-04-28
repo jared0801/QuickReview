@@ -12,12 +12,12 @@ module.exports = {
     async cardCreate(req, res, next) {
         try {
             let deck = await Deck.findById(req.params.id);
-            if(req.files && req.files.length) {
-                const file = req.files[0];
+            if(req.file) {
+                const { url, public_id } = req.file
                 // Add image info to req.body.card
                 req.body.card.image = {
-                    url: file.secure_url,
-                    public_id: file.public_id
+                    url,
+                    public_id
                 };
             }
             // Add deck info to req.body.card
@@ -49,20 +49,21 @@ module.exports = {
             // Update card based on req.body.card
             let card = await Card.findByIdAndUpdate(req.params.card_id, req.body.card);
 
-            if((req.files && req.files.length && card.image.public_id) || 
-                req.body.deleteImage) {
+            if(req.file || req.body.deleteImage) {
                     // Delete old image
-                    await cloudinary.v2.uploader.destroy(card.image.public_id);
-                    card.image = null;
+                    if(card.image.public_id) {
+                        await cloudinary.v2.uploader.destroy(card.image.public_id);
+                        card.image = null;
+                    }
             }
 
-            if(req.files && req.files.length) {
+            if(req.file) {
                 // Upload new image
-                const file = req.files[0];
+                const { url, public_id } = req.file;
                 // Add image info to req.body.card
                 card.image = {
-                    url: file.secure_url,
-                    public_id: file.public_id
+                    url,
+                    public_id
                 };
             }
 
@@ -72,6 +73,7 @@ module.exports = {
 
             res.redirect(`/decks/${req.params.id}`);
         } catch(e) {
+            console.log(e);
             throw new Error(ErrorMsg.CARD_NOT_UPDATED);
         }
     },

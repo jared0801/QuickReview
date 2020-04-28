@@ -1,15 +1,21 @@
-<div style="margin: 20px 0;">
+<ul class="pagination">
     <% if(decks.hasPrevPage) { %>
-        <a href="/decks?page=<%= decks.prevPage %>">Prev</a>
+        <li class="page-item">
+            <a class="page-link" type="button" href="/decks?page=<%= decks.prevPage %>">Prev</a>
+        </li>
     <% } %>
     <% for(let i = 1; i <= decks.totalPages; i++) { %>
-        <a href="/decks?page=<%= i %>"
-        <%= i === decks.page ? 'style=color:#000;' : '' %>
-        >
-            <%= i %>
-        </a>
+        <li class="page-item">
+            <a class="page-link" type="button" href="/decks?page=<%= i %>"
+            <%= i === decks.page ? 'style=color:#000;' : '' %>
+            >
+                <%= i %>
+            </a>
+        </li>
     <% } %>
     <% if(decks.hasNextPage) { %>
-        <a href="/decks?page=<%= decks.nextPage %>">Next</a>
+        <li class="page-item">
+            <a class="page-link" type="button" href="/decks?page=<%= decks.nextPage %>">Next</a>
+        </li>
     <% } %>
-</div>
+</ul>

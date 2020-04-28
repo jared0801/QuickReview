@@ -7,5 +7,6 @@ $('.toggle-edit-form').on('click', function() {
 
 // Add click listener for clearing rating from edit/new form
 $('.clear-rating').click(function() {
-    $(this).siblings('.input-no-rate').click();
+    $(this).siblings('.starability-basic').find('#rate0').click();
+    $(this).siblings('.starability-basic').find('#edit-rate0').click();
 });

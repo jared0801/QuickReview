@@ -1,0 +1,82 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// Theme overrides
+$theme-colors: (
+  "secondary": "#00B7FF"
+);
+
+// Layout styles
+
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  padding: 50px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.btn {
+  a {
+    color: white;
+  }
+  &:hover a {
+    text-decoration: underline;
+  }
+}
+
+main.container {
+  margin-top: 1em;
+}
+
+.btn-delete {
+  &:hover input {
+    text-decoration: underline;
+  }
+  padding: 0;
+}
+
+// Navbar styles
+.navbar {
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+  .navbar-toggler {
+    color: #00B7FF;
+  }
+}
+
+
+.edit-review-form {
+  display: none;
+}
+
+.profile-image {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.recent-decks {
+  margin-bottom: 2em;
+}
+
+.deck {
+  border: 1px solid $dark;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.deck-buttons {
+  margin: 1rem 0 0 0;
+}
+.deck-header-info {
+  flex-grow: 2;
+}
+.deck-header-container {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,23 +1,28 @@
 <% layout('layouts/boilerplate') -%>
 <h1>Edit Card!</h1>
+
 <form action="/decks/<%= deckId %>/cards/<%= card.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-    <div>
-        <textarea name="card[question]" placeholder="Front (question)"><%= card.question %></textarea>
+    <div class="form-group">
+        <label for="card-question">Question</label>
+        <textarea class="form-control" name="card[question]" id="card-question" placeholder="Front (question)"><%= card.question %></textarea>
     </div>
-    <div>
-        <textarea name="card[answer]" placeholder="Back (answer)"><%= card.answer %></textarea>
+    <div class="form-group">
+        <label for="card-answer">Answer</label>
+        <textarea class="form-control" name="card[answer]" placeholder="Back (answer)"><%= card.answer %></textarea>
     </div>
-    <div>
-        <input type="file" id="imageUpload" accept="images/*" name="image">
+    <div class="form-group">
+        <label for="image-input">Image</label>
+        <input class="form-control-file" type="file" id="image-input" accept="images/*" name="image">
+        <small class="form-text text-muted">Optional</small>
         <% if(card.image && card.image.url) { %>
             <img src="<%= card.image.url %>" width="200px" alt="" />
-            <label for="deleteImage">Delete?</label>
-            <input type="checkbox" name="deleteImage" id="deleteImage" value="<%= card.image.public_id %>" class="imageDeleteCheckbox">
+            <label for="delete-image">Delete?</label>
+            <input type="checkbox" name="deleteImage" id="delete-image" value="<%= card.image.public_id %>">
         <% } %>
     </div>
 
-    <input type="submit">
-    <input type="button" onclick="history.back()" value="Cancel">
+    <input class="btn btn-primary" type="submit">
+    <input class="btn btn-danger" type="button" onclick="history.back()" value="Cancel">
 </form>
 
 <!--

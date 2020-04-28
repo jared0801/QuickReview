@@ -2,24 +2,19 @@
 <h1>New Deck!</h1>
 
 <form action="/decks" method="POST" enctype="multipart/form-data">
-    <div>
-        <input type="text" name="deck[title]" placeholder="Title">
+    <div class="form-group">
+        <label for="title-input">Title</label>
+        <input class="form-control" type="text" name="deck[title]" placeholder="Title" id="title-input">
     </div>
-    <div>
-        <input type="file" accept="images/*" name="images" multiple>
+    <div class="form-group">
+        <label for="description-input">Description</label>
+        <textarea class="form-control" name="deck[description]" placeholder="Description" rows="5" id="description-input"></textarea>
     </div>
-    <div>
-        <textarea name="deck[description]" placeholder="Description"></textarea>
+    <div class="form-group">
+        <label for="image-input">Image</label>
+        <input class="form-control-file" type="file" accept="images/*" name="image" id="image-input">
+        <small class="form-text text-muted">Optional</small>
     </div>
 
-    <input type="submit">
+    <input class="btn btn-primary" type="submit">
 </form>
-
-<!--
-Deck
-- title - string
-- description - string
-- cards - array of objects ref Card
-- reviews - array of objects ref Review
-- author - object id (ref user)
--->

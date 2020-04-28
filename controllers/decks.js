@@ -8,7 +8,8 @@ module.exports = {
     async deckIndex(req, res, next) {
         let decks = await Deck.paginate({}, {
             page: req.query.page || 1,
-            limit: 10
+            limit: 10,
+            sort: '-created'
         });
         res.render('decks/index', { decks, title: 'Decks Index' });
     },
@@ -18,16 +19,13 @@ module.exports = {
     },
     /* POST decks create /decks */
     async deckCreate(req, res, next) {
-        req.body.deck.images = [];
-        for(const file of req.files) {
-            // Add image info to req.body.deck
-            req.body.deck.images.push({
-                url: file.secure_url,
-                public_id: file.public_id
-            });
+        if(req.file) {
+            const { url, public_id } = req.file;
+            req.body.deck.image = { url, public_id };
         }
         try {
             req.body.deck.author = req.user._id;
+            req.body.deck.created = new Date();
             // use req.body.deck to create a new deck
             let deck = await Deck.create(req.body.deck);
             req.session.success = SuccessMsg.DECK_CREATED;
@@ -67,29 +65,21 @@ module.exports = {
             // Destructure deck from res.locals
             const { deck } = res.locals;
 
-            // handle any deletion of existing images
-            let deleteImages = req.body.deleteImages;
-            if(deleteImages && deleteImages.length) {
-                // Loop over each image in deleteImages
-                for(const public_id of deleteImages) {
-                    // Delete image from cloudinary and deck.images
-                    await cloudinary.v2.uploader.destroy(public_id);
-                    for(const image of deck.images) {
-                        if(image.public_id === public_id) {
-                            let index = deck.images.indexOf(image);
-                            deck.images.splice(index, 1);
-                        }
-                    }
+            if(req.file || req.body.deleteImage) {
+                // Delete existing image
+                if(deck.image.public_id) {
+                    await cloudinary.v2.uploader.destroy(deck.image.public_id);
+                    deck.image = null;
                 }
             }
+
             // check for any new images to upload
-            if(req.files) {
-                for(const file of req.files) {
-                    // Add images to deck.images array
-                    deck.images.push({
-                        url: file.secure_url,
-                        public_id: file.public_id
-                    });
+            if(req.file) {
+                const { url, public_id } = req.file;
+                // Add image to deck.images array
+                deck.image = {
+                    url,
+                    public_id
                 }
             }
 
@@ -109,7 +99,7 @@ module.exports = {
             const { deck } = res.locals;
 
             // Delete the deck itself from db
-            // cards, images & reviews handled by deck model remove hook
+            // cards, image & reviews handled by deck model remove hook
             await deck.remove();
             req.session.success = SuccessMsg.DECK_DELETED;
             res.redirect('/decks');

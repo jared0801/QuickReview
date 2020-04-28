@@ -1,17 +1,28 @@
 <% layout('layouts/boilerplate') -%>
 <h1>Decks Index!</h1>
-<div>
-    <a href="/decks/new">Create a new deck</a>
-</div>
+
+<% if(currentUser) { %>
+    <div class="mb-3">
+        <a href="/decks/new">
+            <i class="fas fa-plus"></i>
+            Create a new deck
+        </a>
+    </div>
+<% } %>
 
 <% include ../partials/paginate-decks %>
 
 <% decks.docs.forEach(function(deck) { %>
-    <div>
+    <div class="deck">
+        <% if(deck.image && deck.image.url) { %>
+            <img width="200" src="<%= deck.image.url %>" alt="<%= deck.title %>">
+        <% } %>
         <h1><%= deck.title %></h1>
-        <div>Description: <%= deck.description %></div>
-        <div>
-            <a href="/decks/<%= deck.id %>">View Deck</a>
+        <div><%= deck.description %></div>
+        <div class="deck-buttons">
+            <div class="btn btn-primary">
+                <a href="/decks/<%= deck.id %>">View Deck</a>
+            </div>
         </div>
     </div>
 <% }); %>

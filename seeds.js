@@ -3,12 +3,17 @@ const Deck = require('./models/deck');
 
 async function seedDecks() {
     // Remove posts
-    await Deck.deleteMany({});
+    try {
+        await Deck.deleteMany({});
+    } catch(err) {
+        console.error(err);
+    }
     for(let i = 0; i < 40; i++) {
         const deck = {
             title: faker.lorem.word(),
             description: faker.lorem.text(),
-            author: '5ea20cb41942fb1580f1b227'
+            author: '5ea20cb41942fb1580f1b227',
+            created: new Date()
         }
         await Deck.create(deck);
     }

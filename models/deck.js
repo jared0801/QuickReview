@@ -3,7 +3,7 @@ Deck
 - title - string
 - description - string
 - author - object id (ref user)
-- images: [{ url: String, public_id: String }]
+- image: [{ url: String, public_id: String }]
 - reviews - [object id (ref review)]
 - cards - [object id (ref card)]
 - avgRating - number
@@ -22,12 +22,10 @@ const DeckSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    images: [
-        {
-            url: String,
-            public_id: String
-        }
-    ],
+    image: {
+        url: String,
+        public_id: String
+    },
 	reviews: [
 		{
 			type: Schema.Types.ObjectId,
@@ -43,12 +41,13 @@ const DeckSchema = new Schema({
     avgRating: { 
         type: Number,
         default: 0
-    }
+    },
+    created: Date
 });
 
 DeckSchema.pre('remove', async function() {
     await this.populate('cards').execPopulate();
-    // Remove images associated with each card in the deck
+    // Remove image associated with each card in the deck
     for(const card of this.cards) {
         if(card.image && card.image.public_id) {
             await cloudinary.v2.uploader.destroy(card.image.public_id);
@@ -56,9 +55,9 @@ DeckSchema.pre('remove', async function() {
         await card.remove();
     }
 
-    // Remove images associated with this deck
-    for(const image of this.images) {
-        await cloudinary.v2.uploader.destroy(image.public_id);
+    // Remove image associated with this deck
+    if(this.image) {
+        await cloudinary.v2.uploader.destroy(this.image.public_id);
     }
 
     // Remove cards associated with this deck
@@ -77,7 +76,7 @@ DeckSchema.pre('remove', async function() {
 
 DeckSchema.pre('deleteMany', async function() {
     const decks = await this.model.find(this.getQuery()).populate('cards');
-    // Remove images associated with each card in the deck
+    // Remove image associated with each card in the deck
     for(const deck of decks) {
         for(const card of deck.cards) {
             if(card.image && card.image.public_id) {
@@ -86,9 +85,9 @@ DeckSchema.pre('deleteMany', async function() {
             await card.remove();
         }
 
-        // Remove images associated with this deck
-        for(const image of deck.images) {
-            await cloudinary.v2.uploader.destroy(image.public_id);
+        // Remove image associated with this deck
+        if(deck.image && deck.image.public_id) {
+            await cloudinary.v2.uploader.destroy(deck.image.public_id);
         }
 
         // Remove cards associated with this deck

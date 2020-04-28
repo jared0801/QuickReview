@@ -36,7 +36,7 @@ router.get('/', asyncErrorHandler(deckIndex));
 router.get('/new', isLoggedIn, deckNew);
 
 /* POST decks create /decks */
-router.post('/', isLoggedIn, upload.array('images', 4), asyncErrorHandler(deckCreate));
+router.post('/', isLoggedIn, upload.single('image'), asyncErrorHandler(deckCreate));
 
 /* GET decks show /decks/:id */
 router.get('/:id', asyncErrorHandler(deckShow));
@@ -45,7 +45,7 @@ router.get('/:id', asyncErrorHandler(deckShow));
 router.get('/:id/edit', isLoggedIn, asyncErrorHandler(isAuthor), deckEdit);
 
 /* PUT decks update /decks/:id */
-router.put('/:id', isLoggedIn, asyncErrorHandler(isAuthor), upload.array('images', 4), asyncErrorHandler(deckUpdate));
+router.put('/:id', isLoggedIn, asyncErrorHandler(isAuthor), upload.single('image'), asyncErrorHandler(deckUpdate));
 
 /* DELETE decks destroy /decks/:id */
 router.delete('/:id', isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(deckDestroy));

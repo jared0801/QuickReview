@@ -28,5 +28,5 @@ module.exports = {
     PROFILE_NO_PASS_CONF: "Missing password confirmation!",
 
     INVALID_RESET_TOKEN: "Password reset token is invalid or has expired.",
-    PASS_CONF_MATCH: "Passwords do not match."
+    PASS_CONF_MATCH: "Passwords do not match.",
 }
