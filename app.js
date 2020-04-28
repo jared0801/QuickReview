@@ -4,6 +4,7 @@ const createError = require('http-errors');
 const express = require('express');
 const engine = require('ejs-mate');
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -54,9 +55,10 @@ app.use(methodOverride('_method'));
 
 // Configure session
 app.use(session({
-  secret: 'hang ten dude',
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 // Configure passport
@@ -71,12 +73,12 @@ passport.deserializeUser(User.deserializeUser());
 // Set local variables middleware
 app.use((req, res, next) => {
 
-  /*if(process.env.NODE_ENV === 'development') {
+  if(process.env.NODE_ENV === 'development') {
     req.user = {
       '_id': '5e9f3c4838c792294022388b',
       'username': 'jared2'
     }
-  }*/
+  }
   res.locals.currentUser = req.user;
 
   // Set page title
