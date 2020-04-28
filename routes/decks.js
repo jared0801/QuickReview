@@ -10,6 +10,8 @@ const {
 } = require('../middleware');
 
 const { 
+  deckTest,
+  deckReview,
   deckIndex, 
   deckNew, 
   deckCreate, 
@@ -19,15 +21,6 @@ const {
   deckDestroy
 } = require('../controllers/decks');
 
-/*
-GET index       /decks
-GET new         /decks/new
-POST create     /decks
-GET show        /decks/:id
-GET edit        /decks/:id/edit
-PUT update      /decks/:id
-DELETE destroy  /decks/:id
-*/
 
 /* GET decks index /decks */
 router.get('/', asyncErrorHandler(deckIndex));
@@ -40,6 +33,12 @@ router.post('/', isLoggedIn, upload.single('image'), asyncErrorHandler(deckCreat
 
 /* GET decks show /decks/:id */
 router.get('/:id', asyncErrorHandler(deckShow));
+
+/* GET decks review /decks/:id/review */
+router.get('/:id/review', asyncErrorHandler(deckReview));
+
+/* GET decks test /decks/:id/test */
+router.get('/:id/test', asyncErrorHandler(deckTest));
 
 /* GET decks edit /decks/:id/edit */
 router.get('/:id/edit', isLoggedIn, asyncErrorHandler(isAuthor), deckEdit);

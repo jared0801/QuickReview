@@ -20,25 +20,36 @@
                     </p>
                 </div>
             </div>
-            <% if(currentUser && deck.author.equals(currentUser._id)) { %>
-                <div class="button-group">
-                    <div class="btn btn-primary" role="button">
-                        <a href="/decks/<%= deck.id %>/cards/new">
-                            Add a card
-                        </a>
-                    </div>
-                    <div class="btn btn-secondary" role="button">
-                        <a href="/decks/<%= deck.id %>/edit">
-                            Edit
-                        </a>
-                    </div>
-                    <div class="btn btn-delete">
-                        <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
-                            <input type="submit" value="Delete" class="btn btn-danger" role="button">
-                        </form>
-                    </div>
+            <div class="button-group">
+                <div class="btn btn-primary" role="button">
+                    <a href="/decks/<%= deck.id %>/review">
+                        Review
+                    </a>
                 </div>
-            <% } %>
+                <div class="btn btn-primary" role="button">
+                    <a href="/decks/<%= deck.id %>/test">
+                        Test
+                    </a>
+                </div>
+                <% if(currentUser && deck.author.equals(currentUser._id)) { %>
+                        <div class="btn btn-primary" role="button">
+                            <a href="/decks/<%= deck.id %>/cards/new">
+                                Add a card
+                            </a>
+                        </div>
+                        <div class="btn btn-secondary" role="button">
+                            <a href="/decks/<%= deck.id %>/edit">
+                                Edit
+                            </a>
+                        </div>
+                        <div class="btn btn-delete">
+                            <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
+                                <input type="submit" value="Delete" class="btn btn-danger" role="button">
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
         </div>
     </div>
 </div>

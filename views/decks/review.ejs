@@ -1,0 +1,31 @@
+<% layout('layouts/boilerplate') -%>
+
+<h1><%= deck.title %></h1>
+
+<div id="review-form" class="animated text-center card">
+    <img width="200" src="" alt="" id="image" />
+    <h2 id="card-display" class="animated m-5"></h2>
+</div>
+
+
+<input id="prev" type="submit" value="Prev" class="btn btn-primary">
+<input id="next" type="submit" value="Next" class="btn btn-primary">
+<a id="back" type="submit" href="/decks/<%= deck.id %>" class="btn btn-secondary">Back to Deck</a>
+
+<div id="end-form" class="text-center card">
+    <div class="button-group">
+        <a class="btn btn-primary" href="/decks/<%= deck.id %>">View Deck</a>
+        <a class="btn btn-secondary" href="/decks/<%= deck.id %>/review">Try Again</a>
+    </div>
+</div>
+
+<% if(deck && deck.cards) { %>
+    <script type="text/javascript">
+        const mydeck = <%- JSON.stringify(deck.cards.map(e => {
+            if(e.image && e.image.url) return { question: e.question, answer: e.answer, image: { url: e.image.url } }
+            else return { question: e.question, answer: e.answer }
+        })) %>
+    </script>
+<% } %>
+
+<script src="/javascripts/deck-review.js"></script>

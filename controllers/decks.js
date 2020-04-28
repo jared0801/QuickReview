@@ -53,6 +53,29 @@ module.exports = {
             res.redirect('/decks');
         }
     },
+    /* GET decks show /decks/:id/test */
+    async deckTest(req, res, next) {
+        try {
+            let deck = await Deck.findById(req.params.id).populate('cards');
+            const roundedAvgRating = deck.calculateAvgRating();
+            //let cards = await Card.find({ deck: deck.id });
+            res.render('decks/test', { deck, roundedAvgRating });
+        } catch(e) {
+            req.session.error = ErrorMsg.DECK_NOT_FOUND;
+            res.redirect('/decks');
+        }
+    },
+    /* GET decks show /decks/:id/review */
+    async deckReview(req, res, next) {
+        try {
+            let deck = await Deck.findById(req.params.id).populate('cards');
+            //let cards = await Card.find({ deck: deck.id });
+            res.render('decks/review', { deck });
+        } catch(e) {
+            req.session.error = ErrorMsg.DECK_NOT_FOUND;
+            res.redirect('/decks');
+        }
+    },
     /* GET decks edit /decks/:id/edit */
     deckEdit(req, res, next) {
         res.render('decks/edit');
