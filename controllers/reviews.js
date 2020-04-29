@@ -42,6 +42,7 @@ module.exports = {
     /* PUT reviews update /decks/:id/reviews/:review_id */
     async reviewUpdate(req, res, next) {
         try {
+            req.body.review.lastEdit = new Date();
             await Review.findByIdAndUpdate(req.params.review_id, req.body.review);
             req.session.success = SuccessMsg.REVIEW_UPDATED;
             res.redirect(`/decks/${req.params.id}`);

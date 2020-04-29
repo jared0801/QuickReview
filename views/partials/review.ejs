@@ -1,6 +1,13 @@
 <div>
     Author: <%= review.author.username %>
     <br>
+    Created: <%= new Date(review.created).toLocaleString() %>
+    <br>
+    <% if(review.lastEdit) { %>
+        Last Edit: <%= new Date(review.lastEdit).toLocaleString() %>
+        <br>
+    <% } %>
+    <br>
     <%= review.body %>
     <br>
     <br>
