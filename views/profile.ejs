@@ -1,21 +1,28 @@
 <% layout('layouts/boilerplate') -%>
 
 <h2>
-    <img class="profile-image" src="<%= currentUser.image.url %>" alt="<%= currentUser.username %>'s profile image" />
+    <% if(currentUser.image && currentUser.image.url) { %>
+        <img class="profile-image" src="<%= currentUser.image.url %>" alt="<%= currentUser.username %>'s profile image" />
+    <% } %>
     <%= currentUser.username %>'s Profile
 </h2>
+<hr>
 
-<div class="container recent-decks">
+<div class="recent-decks">
     <h3>Recent Decks</h3>
 
-    <% decks.forEach(function(deck) { %>
-    <div>
-        <a href="/decks/<%= deck.id %>"><%= deck.title %></a>
-    </div>
-    <% }); %>
+    <% if(decks.length < 1) { %>
+        <p>You don't have any recent decks yet. <a href="/decks/new">Create one now!</a></p>
+    <% } else { %>
+        <% decks.forEach(function(deck) { %>
+        <div>
+            <a href="/decks/<%= deck.id %>"><%= deck.title %></a>
+        </div>
+        <% }); %>
+    <% } %>
 </div>
 
-<div class="container">
+<div>
     <h3>Profile Information</h3>
 
     <form action="/users/profile?_method=PUT" method="POST" id="update-form" enctype="multipart/form-data">
@@ -24,7 +31,7 @@
             <input class="form-control" type="text" id="username" name="username" placeholder="username" value="<%= currentUser.username %>" autofocus required>
         </div>
         <div class="form-group">
-            <label for="currentPassword">Current Password</label>
+            <label for="currentPassword">Current Password<span class="text-danger ">* (required)</span></label>
             <input class="form-control" type="password" id="currentPassword" name="currentPassword" placeholder="Current Password" required>
         </div>
         <div class="form-group">
@@ -45,7 +52,7 @@
             <input class="form-control-file" type="file" id="image" name="image">
         </div>
 
-        <input class="btn btn-primary" type="submit" id="update-profile">
+        <input class="btn btn-primary" value="Update Profile" type="submit" id="update-profile">
     </form>
 </div>
 

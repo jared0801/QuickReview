@@ -12,7 +12,8 @@ const {
 const { 
   deckTest,
   deckReview,
-  deckIndex, 
+  deckIndex,
+  deckMine,
   deckNew, 
   deckCreate, 
   deckShow,
@@ -24,6 +25,9 @@ const {
 
 /* GET decks index /decks */
 router.get('/', asyncErrorHandler(deckIndex));
+
+/* GET decks index /decks/mine */
+router.get('/mine', isLoggedIn, asyncErrorHandler(deckMine));
 
 /* GET decks new /decks/new */
 router.get('/new', isLoggedIn, deckNew);

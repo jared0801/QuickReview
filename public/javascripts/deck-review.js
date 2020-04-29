@@ -1,6 +1,7 @@
 const cardText = $('#card-display');
 const reviewForm = $('#review-form');
 const image = $('#image');
+const cardSide = $('#card-side-icon');
 const endForm = $('#end-form');
 const skipOne = $('#skip-one');
 const prevButton = $('#prev');
@@ -23,6 +24,7 @@ function shuffleDeck(deck) {
 
 // Changes the interface for the user to advance to the next question
 function showCard(deck, round) {
+
     // Clear any image
     image.attr('src', '');
     image.attr('alt', '');
@@ -44,26 +46,32 @@ function showCard(deck, round) {
             endForm.prepend(`<div class="alert alert-danger">You scored ${correct} / ${deck.length} with ${incorrect} incorrect attempts.</div>`);
         return;
     } else {
-        // Change the interface for a new card
+        // Show question & image for a given round
         if(deck[round].image && deck[round].image.url) {
             image.attr('src', deck[round].image.url);
             image.attr('alt', deck[round].image.question);
         }
-        cardText.text('Front: ' + deck[round].question);
+        cardText.text(deck[round].question);
+        cardSide.text('Q');
+        questionSide = true;
     }
+    
 }
 
 function flipCard(deck, round) {
-    cardText.addClass('flipInY');
+    reviewForm.addClass('flipOutY');
     setTimeout(() => {
-        cardText.removeClass('flipInY');
-    }, 1000)
-    if(questionSide) {
-        cardText.text('Back: ' + deck[round].answer);
-    } else {
-        cardText.text('Front: ' + deck[round].question);
-    }
-    questionSide = !questionSide;
+        reviewForm.removeClass('flipOutY');
+        reviewForm.addClass('flipInY');
+        if(questionSide) {
+            cardText.text(deck[round].answer);
+            cardSide.text('A');
+        } else {
+            cardText.text(deck[round].question);
+            cardSide.text('Q');
+        }
+        questionSide = !questionSide;
+    }, 500);
 }
 
 

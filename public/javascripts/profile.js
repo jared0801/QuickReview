@@ -12,7 +12,7 @@ function validatePasswords(message, add, remove) {
     validationMessage.classList.remove(remove);
 }
 
-confirmation.addEventListener('input', e => {
+function checkConfirmation(e) {
     newPasswordValue = newPassword.value;
     confirmationValue = confirmation.value;
     if(newPasswordValue !== confirmationValue) {
@@ -22,4 +22,7 @@ confirmation.addEventListener('input', e => {
         validatePasswords('Passwords match!', 'color-green', 'color-red');
         submitBtn.removeAttribute('disabled');
     }
-});
+}
+
+confirmation.addEventListener('input', checkConfirmation);
+newPassword.addEventListener('input', checkConfirmation);

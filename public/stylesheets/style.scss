@@ -1,9 +1,7 @@
-@import "../../node_modules/bootstrap/scss/bootstrap";
 
-// Theme overrides
-$theme-colors: (
-  "secondary": "#00B7FF"
-);
+$blue: #00b7ff;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 // Layout styles
 
@@ -33,9 +31,6 @@ main.container {
 }
 
 .btn-delete {
-  &:hover input {
-    text-decoration: underline;
-  }
   padding: 0;
 }
 
@@ -68,6 +63,19 @@ main.container {
   border-radius: 5px;
   padding: 1rem;
   margin: 1rem 0;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.deck-link:hover {
+  text-decoration: none;
+  color: $secondary;
+}
+.deck-desc {
+  flex-grow: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .deck-buttons {
@@ -111,9 +119,28 @@ main.container {
 #skip-one.show {
   display: block;
 }
-#review-form, #test-form {
+.review-page {
   overflow: hidden;
+}
+#review-form, #test-form {
+  width: 80%;
+  margin: auto;
   img {
     margin: auto;
   }
+}
+#card-side-icon {
+  text-align: left;
+  padding: 1em;
+}
+
+.card-item {
+  padding: 1em;
+}
+
+.card-grid, .deck-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 1em;
+  row-gap: 1em;
 }

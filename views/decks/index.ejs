@@ -1,5 +1,5 @@
 <% layout('layouts/boilerplate') -%>
-<h1>Decks Index!</h1>
+<h1><%= title %></h1>
 
 <% if(currentUser) { %>
     <div class="mb-3">
@@ -12,19 +12,23 @@
 
 <% include ../partials/paginate-decks %>
 
-<% decks.docs.forEach(function(deck) { %>
-    <div class="deck text-center">
-        <% if(deck.image && deck.image.url) { %>
-            <img width="200" src="<%= deck.image.url %>" alt="<%= deck.title %>">
-        <% } %>
-        <h1><%= deck.title %></h1>
-        <div><%= deck.description %></div>
-        <div class="deck-buttons">
-            <div class="btn btn-primary">
-                <a href="/decks/<%= deck.id %>">View Deck</a>
+<div class="deck-grid">
+    <% decks.docs.forEach(function(deck) { %>
+        <a class="deck-link" href="/decks/<%= deck.id %>">
+            <div class="deck text-center">
+                <% if(deck.image && deck.image.url) { %>
+                    <img width="200" src="<%= deck.image.url %>" alt="<%= deck.title %>">
+                <% } %>
+                <h1><%= deck.title %></h1>
+                <div class="deck-desc"><%= deck.description %></div>
+                <div class="deck-buttons">
+                    <div class="btn btn-secondary">
+                        View Deck
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-<% }); %>
+        </a>
+    <% }); %>
+</div>
 
 <% include ../partials/paginate-decks %>

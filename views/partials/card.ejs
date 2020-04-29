@@ -1,4 +1,4 @@
-<div>
+<div class="card card-item">
     <div>Question: <%= card.question %></div>
     <div>Answer: <%= card.answer %></div>
     <% if(card.image && card.image.url) { %>
@@ -7,11 +7,13 @@
         </div>
     <% } %>
     <% if(currentUser && deck.author.equals(currentUser._id)) { %>
-    <div class="btn btn-primary"><a href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a></div>
-    <div class="btn btn-delete">
-        <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">
-            <input type="submit" class="btn btn-danger" value="Delete card">
-        </form>
+    <div>
+        <a class="btn btn-primary" href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a>
+        <div class="btn btn-delete">
+            <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">
+                <input type="submit" class="btn btn-danger" value="Delete card">
+            </form>
+        </div>
     </div>
     <% } %>
 </div>

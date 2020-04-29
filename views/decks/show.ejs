@@ -6,10 +6,17 @@
 <br>
 
 <h2>Cards</h2>
-<% deck.cards.forEach(function(card) { %>
-    <%- include('../partials/card', { card }) %>
-    <br>
-<% }); %>
+<% if(deck.reviews.length < 1) { %>
+    <p>This deck still doesn't have any cards!</p>
+<% } else { %>
+    <div class="card-grid">
+    <% deck.cards.forEach(function(card, i) { %>
+        <%- include('../partials/card', { card, i }) %>
+    <% }); %>
+    </div>
+<% } %>
+
+<br>
 
 <h2>Create a Review</h2>
 <% if(currentUser) { %>
@@ -30,7 +37,7 @@
         <label for="rate5" title="Amazing">5 stars</label>
     </fieldset>
       
-    <button class="clear-rating btn btn-danger" type="button">Clear Rating</button>
+    <button class="clear-rating btn btn-secondary" type="button">Clear Rating</button>
     
     <input class="btn btn-primary" type="submit">
 </form>
@@ -38,11 +45,16 @@
 <a href="/users/login?returnTo=true">Login to create a review...</a>
 <% } %>
 
+<br>
 
 <h3>Reviews</h3>
+<% if(deck.reviews.length < 1) { %>
+    <p>This deck still hasn't been reviewed!</p>
+<% } else { %>
 <% deck.reviews.forEach(function(review) { %>
     <%- include('../partials/review', { review }) %>
 <% }); %>
+<% } %>
 
 
 <script src="/javascripts/deck-show.js"></script>

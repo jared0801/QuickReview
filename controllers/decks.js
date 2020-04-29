@@ -13,6 +13,16 @@ module.exports = {
         });
         res.render('decks/index', { decks, title: 'Decks Index' });
     },
+    /* GET decks index /decks */
+    async deckMine(req, res, next) {
+        const author = req.user._id;
+        let decks = await Deck.paginate({ author }, {
+            page: req.query.page || 1,
+            limit: 10,
+            sort: '-created'
+        });
+        res.render('decks/index', { decks, title: 'My Decks!' });
+    },
     /* GET decks new /decks/new */
     deckNew(req, res, next) {
         res.render('decks/new');
