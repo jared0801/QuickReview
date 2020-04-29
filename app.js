@@ -75,8 +75,8 @@ app.use((req, res, next) => {
 
   if(process.env.NODE_ENV === 'development') {
     req.user = {
-      '_id': '5e9f3c4838c792294022388b',
-      'username': 'jared2'
+      '_id': '5ea38e9ed60af14df4f50e0c',
+      'username': 'test2'
     }
   }
   res.locals.currentUser = req.user;

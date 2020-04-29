@@ -101,6 +101,9 @@ main.container {
   display: flex;
   flex-direction: column;
 }
+.pagination {
+  flex-wrap: wrap;
+}
 
 // Testing styles
 #incorrect-display, #correct-display {
@@ -147,6 +150,12 @@ main.container {
   padding: 1em;
 }
 
+.review-control-box {
+  display: flex;
+  margin: 4rem 2rem;
+  padding: 2rem;
+}
+
 .card-item {
   padding: 1em;
 }
@@ -156,4 +165,35 @@ main.container {
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 1em;
   row-gap: 1em;
+}
+
+@include media-breakpoint-down(lg) {
+  .navbar-collapse {
+    text-align: center;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .card-grid, .deck-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .card-grid, .deck-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .review-control-box {
+    padding: 2rem 5px;
+  }
+  .navbar-brand {
+    width: 100%;
+    text-align: center;
+  }
+  .navbar {
+    justify-content: center;
+  }
 }

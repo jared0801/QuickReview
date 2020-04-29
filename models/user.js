@@ -4,10 +4,10 @@ User
 - password - string
 - username - string
 - image - { url: String, public_id: String }
-- resetPasswordToke - string
+- resetPasswordToken - string
 - resetPasswordExpires - date
 
-Note: passportLocalMongoose handles username annd password fields
+Note: passportLocalMongoose handles username and password fields
 */
 
 const mongoose = require('mongoose');

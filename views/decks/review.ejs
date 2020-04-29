@@ -9,10 +9,17 @@
         <h2 id="card-display" class="m-5"></h2>
     </div>
 
-
-    <input id="prev" type="submit" value="Prev" class="btn btn-primary">
-    <input id="next" type="submit" value="Next" class="btn btn-primary">
-    <a id="back" type="submit" href="/decks/<%= deck.id %>" class="btn btn-secondary">Back to Deck</a>
+    <div class="review-control-box card">
+        <div class="row">
+            <div class="col-6">
+                <button id="prev" type="submit" class="btn btn-primary review-control"><i class="fas fa-chevron-left"></i><span class="d-none d-sm-inline"> Prev</span></button>
+            </div>
+            <div class="col-6 text-right">
+                <button id="next" type="submit" class="btn btn-primary review-control"><span class="d-none d-sm-inline">Next </span><i class="fas fa-chevron-right"></i></button>
+                <a id="back" type="submit" href="/decks/<%= deck.id %>" class="btn btn-secondary review-control">Back to Deck</a>
+            </div>
+        </div>
+    </div>
 
     <div id="end-form" class="text-center card">
         <div class="button-group">

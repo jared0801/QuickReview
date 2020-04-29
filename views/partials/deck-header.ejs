@@ -19,26 +19,28 @@
                         Rated: <%= roundedAvgRating %> stars
                     </p>
                 </div>
-            </div>
-            <div class="button-group">
-                <a class="btn btn-info" href="/decks/<%= deck.id %>/review">
-                    Review
-                </a>
-                <a class="btn btn-success" href="/decks/<%= deck.id %>/test">
-                    Test
-                </a>
+                <div>
+                    <a class="btn btn-info" href="/decks/<%= deck.id %>/review">
+                        Review
+                    </a>
+                    <a class="btn btn-success" href="/decks/<%= deck.id %>/test">
+                        Test
+                    </a>
+                </div>
                 <% if(currentUser && deck.author.equals(currentUser._id)) { %>
-                    <a class="btn btn-primary" href="/decks/<%= deck.id %>/cards/new">
-                        Add a card
-                    </a>
-                    <a class="btn btn-secondary" href="/decks/<%= deck.id %>/edit">
-                        Edit
-                    </a>
-                    <div class="btn btn-delete">
-                        <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
-                            <input type="submit" value="Delete" class="btn btn-danger" role="button">
-                        </form>
-                    </div>    
+                    <div class="mt-3">
+                        <a class="btn btn-primary" href="/decks/<%= deck.id %>/cards/new">
+                            Add a card
+                        </a>
+                        <a class="btn btn-secondary" href="/decks/<%= deck.id %>/edit">
+                            Edit
+                        </a>
+                        <div class="btn btn-delete">
+                            <form action="/decks/<%= deck.id %>?_method=DELETE" method="POST">
+                                <input type="submit" value="Delete" class="btn btn-danger" role="button">
+                            </form>
+                        </div>
+                    </div>
                 <% } %>
             </div>
             <% if(deck.public === false) { %>

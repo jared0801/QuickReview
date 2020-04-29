@@ -8,7 +8,7 @@ module.exports = {
     async deckIndex(req, res, next) {
         let decks = await Deck.paginate({ $or: [ { public: true }, { public: { $exists: false } }] }, {
             page: req.query.page || 1,
-            limit: 10,
+            limit: 12,
             sort: '-created'
         });
         res.render('decks/index', { decks, title: 'Decks Index' });
