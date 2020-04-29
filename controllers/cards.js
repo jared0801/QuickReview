@@ -10,22 +10,32 @@ module.exports = {
     },
     /* POST cards create /decks/:id/cards */
     async cardCreate(req, res, next) {
+        let cards = req.body.cards;
         try {
             let deck = await Deck.findById(req.params.id);
-            if(req.file) {
-                const { url, public_id } = req.file
-                // Add image info to req.body.card
-                req.body.card.image = {
-                    url,
-                    public_id
-                };
+            if(req.files && req.files.length) {
+                let fileCounter = 0;
+                for(const cardInfo of cards) {
+                    if(cardInfo.image === '') {
+                        const { url, public_id } = req.files[fileCounter++]
+                        // Add image info to req.body.card
+                        cardInfo.image = {
+                            url,
+                            public_id
+                        };
+                    }
+                }
             }
             // Add deck info to req.body.card
             //req.body.card.deck = req.params.id;
             // use req.body.card to create a new card
-            let card = await Card.create(req.body.card);
-            // associated this card with its deck
-            deck.cards.push(card);
+            //throw new Error('wat');
+            for(const cardInfo of cards) {
+                const card = await Card.create(cardInfo);
+                // associated this card with its deck
+                deck.cards.push(card);
+            }
+            
             await deck.save();
 
             req.session.success = SuccessMsg.CARD_CREATED;

@@ -32,7 +32,7 @@ DELETE destroy  /decks/:id/cards/:card_id
 router.get('/new', isLoggedIn, asyncErrorHandler(isAuthor), cardNew);
 
 /* POST decks create /decks/:id/cards */
-router.post('/', isLoggedIn, asyncErrorHandler(isAuthor), upload.single('image'), asyncErrorHandler(cardCreate));
+router.post('/', isLoggedIn, asyncErrorHandler(isAuthor), upload.array('images'), asyncErrorHandler(cardCreate));
 
 /* GET cards edit /decks/:id/cards/:card_id/edit */
 router.get('/:card_id/edit', isLoggedIn, asyncErrorHandler(isAuthor), asyncErrorHandler(cardEdit));

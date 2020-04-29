@@ -59,6 +59,7 @@ module.exports = {
                 }
             }).populate('cards');
             const roundedAvgRating = deck.calculateAvgRating();
+            console.log(deck);
             //let cards = await Card.find({ deck: deck.id });
             res.render('decks/show', { deck, roundedAvgRating });
         } catch(e) {
