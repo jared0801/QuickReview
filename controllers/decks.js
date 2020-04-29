@@ -6,7 +6,7 @@ const { cloudinary } = require('../cloudinary');
 module.exports = {
     /* GET decks index /decks */
     async deckIndex(req, res, next) {
-        let decks = await Deck.paginate({}, {
+        let decks = await Deck.paginate({ $or: [ { public: true }, { public: { $exists: false } }] }, {
             page: req.query.page || 1,
             limit: 10,
             sort: '-created'
@@ -36,6 +36,9 @@ module.exports = {
         try {
             req.body.deck.author = req.user._id;
             req.body.deck.created = new Date();
+            if(req.body.accessRadio === 'public') req.body.deck.public = true;
+            else req.body.deck.public = false;
+
             // use req.body.deck to create a new deck
             let deck = await Deck.create(req.body.deck);
             req.session.success = SuccessMsg.DECK_CREATED;
@@ -105,6 +108,10 @@ module.exports = {
                     deck.image = null;
                 }
             }
+
+            // Update deck's public/private status
+            if(req.body.accessRadio === 'public') deck.public = true;
+            else deck.public = false;
 
             // check for any new images to upload
             if(req.file) {

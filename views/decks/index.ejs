@@ -16,6 +16,9 @@
     <% decks.docs.forEach(function(deck) { %>
         <a class="deck-link" href="/decks/<%= deck.id %>">
             <div class="deck text-center">
+                <% if(deck.public === false) { %>
+                    <div class="deck-p" data-toggle="tooltip" data-placement="top" title="This deck is private.">P</div>
+                <% } %>
                 <% if(deck.image && deck.image.url) { %>
                     <img width="200" src="<%= deck.image.url %>" alt="<%= deck.title %>">
                 <% } %>

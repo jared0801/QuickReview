@@ -3,10 +3,12 @@ Deck
 - title - string
 - description - string
 - author - object id (ref user)
-- image: [{ url: String, public_id: String }]
+- image: { url: String, public_id: String }
 - reviews - [object id (ref review)]
 - cards - [object id (ref card)]
 - avgRating - number
+- created - date
+- public - boolean
 */
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
@@ -42,7 +44,8 @@ const DeckSchema = new Schema({
         type: Number,
         default: 0
     },
-    created: Date
+    created: Date,
+    public: Boolean
 });
 
 DeckSchema.pre('remove', async function() {

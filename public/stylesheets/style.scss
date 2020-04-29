@@ -61,13 +61,26 @@ main.container {
 .deck {
   border: 1px solid $dark;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 2.5rem 1rem;
   margin: 1rem 0;
   height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
+.deck-p {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  color: $danger;
+  border: 1px solid $danger;
+  border-radius: 100%;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+}
+
 .deck-link:hover {
   text-decoration: none;
   color: $secondary;
