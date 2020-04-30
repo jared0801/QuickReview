@@ -130,6 +130,34 @@ main.container {
   flex-wrap: wrap;
 }
 
+.page-item.mobile-only {
+  display: none;
+}
+
+.page-link.active {
+  color: white;
+  background-color: $primary;
+}
+
+.page-link.disabled {
+  background-color: $light;
+}
+
+.page-link.disabled:hover,
+.page-link.disabled:focus {
+  cursor: not-allowed;
+  background-color: $light;
+  color: $primary;
+}
+
+.ctrl-item {
+  display: inherit;
+  .page-link {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+}
+
 // Testing page styles
 #incorrect-display, #correct-display {
   position: absolute;
@@ -239,6 +267,15 @@ div[id^="card"] {
 @include media-breakpoint-down(md) {
   .card-grid, .deck-grid {
     grid-template-columns: 1fr 1fr;
+  }
+  .page-link {
+    font-size: 90%;
+  }
+  .page-item:not(.ctrl-item):not(.important) {
+    display: none;
+  }
+  .page-item.mobile-only {
+    display: block;
   }
 }
 
