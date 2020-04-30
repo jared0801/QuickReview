@@ -95,8 +95,9 @@
         // Del button
         if(numCards > 0) {
             let delbtn = document.createElement('button');
-            delbtn.innerText = "Remove Card";
-            delbtn.classList.add('btn', 'btn-danger');
+            
+            delbtn.innerHTML = '<i class="fas fa-times"></i>';
+            delbtn.classList.add('btn', 'btn-danger', 'rounded-circle', 'animated', 'fast', 'bounceIn', 'card-form-close');
             delbtn.setAttribute('cardId', numCards);
             delbtn.onclick = function(e) { 
                 e.preventDefault();

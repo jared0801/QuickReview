@@ -1,5 +1,9 @@
 
-$blue: #00b7ff;
+$blue: #4D9DE0;
+$success: #A5BE00;
+$darkblue: #064789;
+$red: #E15554;
+
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
@@ -9,13 +13,53 @@ $blue: #00b7ff;
   font-family: 'Montserrat', sans-serif;
 }
 
-body {
-  padding: 50px;
+html {
+  height: 100vh;
+}
+
+p {
+  font-size: 1.1rem;
 }
 
 a {
-  color: #00B7FF;
+  color: $blue;
 }
+
+body {
+  height: 100%;
+  background-color: #E5E9EC;
+  display: flex;
+  flex-direction: column;
+}
+
+
+// Navbar styles
+.navbar {
+  a {
+    color: $dark;
+  }
+  .navbar-collapse {
+    justify-content: flex-end;
+  }
+  .navbar-toggler {
+    color: #00B7FF;
+  }
+}
+
+a.nav-link:hover {
+  text-decoration: underline;
+}
+
+
+// Main
+
+main.container {
+  margin-top: 1em;
+  flex-grow: 1;
+}
+
+
+// Buttons
 
 .btn {
   a {
@@ -26,38 +70,13 @@ a {
   }
 }
 
-main.container {
-  margin-top: 1em;
-}
-
 .btn-delete {
   padding: 0;
 }
 
-// Navbar styles
-.navbar {
-  .navbar-collapse {
-    justify-content: flex-end;
-  }
-  .navbar-toggler {
-    color: #00B7FF;
-  }
-}
 
-
-.edit-review-form {
-  display: none;
-}
-
-.profile-image {
-  width: 100px;
-  border-radius: 50%;
-}
-
-.recent-decks {
-  margin-bottom: 2em;
-}
-
+// Pages
+// Deck index page
 .deck {
   border: 1px solid $dark;
   border-radius: 5px;
@@ -68,6 +87,8 @@ main.container {
   flex-direction: column;
   align-items: center;
   position: relative;
+  color: $dark;
+  background-color: $light;
 }
 .deck-p {
   position: absolute;
@@ -94,6 +115,8 @@ main.container {
 .deck-buttons {
   margin: 1rem 0 0 0;
 }
+
+// Deck header partial styles
 .deck-header-info {
   flex-grow: 2;
 }
@@ -101,11 +124,13 @@ main.container {
   display: flex;
   flex-direction: column;
 }
+
+// paginate-decks partial styles
 .pagination {
   flex-wrap: wrap;
 }
 
-// Testing styles
+// Testing page styles
 #incorrect-display, #correct-display {
   position: absolute;
   transition: 0.5s;
@@ -135,10 +160,12 @@ main.container {
 #skip-one.show {
   display: block;
 }
-.review-page {
+
+// Review page styles
+#review-page {
   overflow: hidden;
 }
-#review-form, #test-form {
+.review-form, .test-form {
   width: 80%;
   margin: auto;
   img {
@@ -159,6 +186,18 @@ main.container {
 .card-item {
   padding: 1em;
   text-align: center;
+  border-radius: 1rem;
+  background-color: $light;
+}
+
+.card-form-close {
+  position: absolute;
+  right: 0;
+  top: -2rem;
+}
+
+div[id^="card"] {
+  position: relative;
 }
 
 .card-grid, .deck-grid {
@@ -167,6 +206,29 @@ main.container {
   column-gap: 1em;
   row-gap: 1em;
 }
+
+
+
+.edit-review-form {
+  display: none;
+}
+
+
+// Profile
+
+.profile-image {
+  width: 100px;
+  border-radius: 50%;
+}
+
+.recent-decks {
+  margin-bottom: 2em;
+}
+
+
+
+
+// Media queries
 
 @include media-breakpoint-down(lg) {
   .navbar-collapse {

@@ -1,3 +1,15 @@
 <% layout('layouts/boilerplate') -%>
-<h1>Quick Review</h1>
-<p>Welcome to Quick Review</p>
+
+<% if(currentUser) { %>
+    <p>Welcome back to Quick Review - an easy-to-use application for creating and sharing flashcards</p>
+
+    <p>To review existing flashcards, see the <a href="/decks">Deck List</a>.</p>
+
+    <p>To create your own flashcards, <a href="/decks/new">Create a New Deck</a>.</p>
+<% } else { %>
+    <p>Welcome to Quick Review - an easy-to-use application for creating and sharing flashcards</p>
+
+    <p>To create your own flashcards for yourself or others, <a href="/users/register">sign up here</a>.</p>
+
+    <p>To review existing flashcards, see the <a href="/decks">Deck List</a>.</p>
+<% } %>

@@ -1,5 +1,5 @@
 const cardText = $('#card-display');
-const reviewForm = $('#review-form');
+const reviewForm = $('.review-form');
 const image = $('#image');
 const cardSide = $('#card-side-icon');
 const endForm = $('#end-form');
@@ -81,12 +81,12 @@ $(document).ready(() => {
     showCard(shuffled, qNum);
 
     // Same functionality whether the user clicks submit or hits enter on input
-    $('#review-form').click(function() {
+    reviewForm.click(function() {
         //testGuess(shuffled);
         flipCard(shuffled, qNum);
     });
 
-    $('#review-form').keypress(function(e) {
+    reviewForm.keypress(function(e) {
         if(e.which === 13) { // 13 maps to enter key
             //testGuess(shuffled);
             flipCard(shuffled, qNum);

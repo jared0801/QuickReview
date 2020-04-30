@@ -11,7 +11,7 @@ module.exports = {
             limit: 12,
             sort: '-created'
         });
-        res.render('decks/index', { decks, title: 'Decks Index' });
+        res.render('decks/index', { decks, title: 'Deck List' });
     },
     /* GET decks index /decks */
     async deckMine(req, res, next) {
@@ -21,11 +21,11 @@ module.exports = {
             limit: 10,
             sort: '-created'
         });
-        res.render('decks/index', { decks, title: 'My Decks!' });
+        res.render('decks/index', { decks, title: 'My Decks' });
     },
     /* GET decks new /decks/new */
     deckNew(req, res, next) {
-        res.render('decks/new');
+        res.render('decks/new', { title: 'Create a Deck' });
     },
     /* POST decks create /decks */
     async deckCreate(req, res, next) {
@@ -59,7 +59,6 @@ module.exports = {
                 }
             }).populate('cards');
             const roundedAvgRating = deck.calculateAvgRating();
-            console.log(deck);
             //let cards = await Card.find({ deck: deck.id });
             res.render('decks/show', { deck, roundedAvgRating });
         } catch(e) {
