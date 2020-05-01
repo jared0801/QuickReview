@@ -188,6 +188,10 @@ main.container {
   margin: auto;
 }
 
+.not-animated {
+  transition: none !important;
+}
+
 #end-form {
   display: none;
 }
@@ -208,6 +212,9 @@ main.container {
 #skip-one.show {
   display: block;
 }
+.controls.form-inline {
+  justify-content: space-between;
+}
 
 // Review page styles
 #review-page {
@@ -220,15 +227,24 @@ main.container {
     margin: auto;
   }
 }
+.review-form:hover {
+  cursor: pointer;
+}
 #card-side-icon {
   text-align: left;
   padding: 1em;
 }
 
 .review-control-box {
-  display: flex;
+  background-color: white;
+  justify-content: space-between;
   margin: 4rem 2rem;
   padding: 2rem;
+}
+
+.review-settings {
+  margin-top: 1rem;
+  justify-content: space-between;
 }
 
 .card-item {

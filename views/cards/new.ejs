@@ -6,7 +6,7 @@
 
     </div>
     
-    <button class="btn btn-info" id="another-card">Add another</button>
+    <button class="btn btn-info" id="another-card"><i class="fas fa-plus"></i> Add another</button>
 
     <input class="btn btn-primary" type="submit">
     <input class="btn btn-danger" type="button" onclick="history.back()" value="Cancel">
@@ -19,10 +19,6 @@
     function createCard(e) {
         let card = document.createElement('div');
         card.id = `card${numCards}`;
-
-        // Card number
-        //let cardnum = document.createElement('h3');
-        //cardnum.innerText = `Card #${numCards+1}`;
 
         // Question
         let question = document.createElement('div');

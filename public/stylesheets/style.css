@@ -10965,6 +10965,11 @@ main.container {
   margin: auto;
 }
 
+.not-animated {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
 #end-form {
   display: none;
 }
@@ -10989,6 +10994,12 @@ main.container {
   display: block;
 }
 
+.controls.form-inline {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 #review-page {
   overflow: hidden;
 }
@@ -11002,17 +11013,29 @@ main.container {
   margin: auto;
 }
 
+.review-form:hover {
+  cursor: pointer;
+}
+
 #card-side-icon {
   text-align: left;
   padding: 1em;
 }
 
 .review-control-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  background-color: white;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   margin: 4rem 2rem;
   padding: 2rem;
+}
+
+.review-settings {
+  margin-top: 1rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .card-item {
