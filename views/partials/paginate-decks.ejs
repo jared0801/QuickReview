@@ -1,6 +1,6 @@
 <% if(decks.totalPages > 1) { %>
 
-<%  const NEIGHBOR_PAGES = 5;
+<%  const NEIGHBOR_PAGES = 3;
     let start = Math.max(1, decks.page-NEIGHBOR_PAGES);
     let end = Math.min(decks.totalPages, decks.page+NEIGHBOR_PAGES);
     if(end === decks.totalPages && end-start < NEIGHBOR_PAGES*2) start = end-(NEIGHBOR_PAGES*2-1);
