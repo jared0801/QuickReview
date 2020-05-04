@@ -65,7 +65,7 @@ DeckSchema.pre('remove', async function() {
     }
 
     // Remove image associated with this deck
-    if(this.image) {
+    if(this.image && this.image.public_id) {
         await cloudinary.v2.uploader.destroy(this.image.public_id);
     }
 

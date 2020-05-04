@@ -291,6 +291,18 @@ div[class^="review-page-"].show {
 .card-content {
   flex-grow: 1;
 }
+.card-list {
+  .card-content {
+    text-align: left;
+  }
+  .card {
+    flex-direction: row;
+    margin-bottom: 1rem;
+  }
+  .card-controls .btn {
+    display: block;
+  }
+}
 
 .card-label {
   font-weight: bold;
@@ -312,6 +324,20 @@ div[id^="card"] {
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 1em;
   row-gap: 1em;
+}
+
+.card-grid {
+  display: none;
+  &.show {
+    display: grid;
+  }
+}
+
+.card-list {
+  display: none;
+  &.show {
+    display: block;
+  }
 }
 
 

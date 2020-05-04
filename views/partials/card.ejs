@@ -13,12 +13,11 @@
     </div>
     <% if(currentUser && deck.author.equals(currentUser._id)) { %>
         <br>
+        <%- include('./form-modal', { action: `/decks/${deck.id}/cards/${card.id}?_method=DELETE`, target: 'delCardWarning', title: 'Warning', text: 'This card will be deleted forever. Are you sure?', btnText: 'Delete', btnClass: 'btn-danger' }) %>
         <div class="card-controls">
             <a class="btn btn-primary" href="/decks/<%= deck.id %>/cards/<%= card.id %>/edit">Edit card</a>
             <div class="btn btn-delete">
-                <form action="/decks/<%= deck.id %>/cards/<%= card.id %>?_method=DELETE" method="POST">
-                    <input type="submit" class="btn btn-danger" value="Delete card">
-                </form>
+                <button class="btn btn-danger" role="button" data-toggle="modal" data-target="#delCardWarning">Delete</button>
             </div>
         </div>
     <% } %>

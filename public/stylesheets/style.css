@@ -11093,6 +11093,22 @@ div[class^="review-page-"].show {
           flex-grow: 1;
 }
 
+.card-list .card-content {
+  text-align: left;
+}
+
+.card-list .card {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  margin-bottom: 1rem;
+}
+
+.card-list .card-controls .btn {
+  display: block;
+}
+
 .card-label {
   font-weight: bold;
   text-decoration: underline;
@@ -11116,6 +11132,23 @@ div[id^="card"] {
   -webkit-column-gap: 1em;
           column-gap: 1em;
   row-gap: 1em;
+}
+
+.card-grid {
+  display: none;
+}
+
+.card-grid.show {
+  display: -ms-grid;
+  display: grid;
+}
+
+.card-list {
+  display: none;
+}
+
+.card-list.show {
+  display: block;
 }
 
 .edit-review-form {

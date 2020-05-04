@@ -31,10 +31,10 @@ reviews.nextPage = reviews.page+1; %>
             <button class="page-link <% if(!reviews.hasNextPage) { %> disabled<% } %>" role="button" type="button" id="last-link"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></button>
         </li>
     </ul>
-    <% } %>
+<% } %>
 
-    <script type="text/javascript">
-        const totalPages = <%- reviews.totalPages %>
-    </script>
-    
-    <script src="/javascripts/paginate-reviews.js"></script>
+<script type="text/javascript">
+    const totalPages = <%- reviews.totalPages %>
+</script>
+
+<script src="/javascripts/paginate-reviews.js"></script>

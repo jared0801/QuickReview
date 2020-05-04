@@ -31,7 +31,7 @@ const middleware = {
     },
     async isAuthor(req, res, next) {
         const deck = await Deck.findById(req.params.id);
-        if (deck.author.equals(req.user._id)) {
+        if (deck && deck.author.equals(req.user._id)) {
             res.locals.deck = deck;
             return next();
         }

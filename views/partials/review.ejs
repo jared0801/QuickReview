@@ -1,4 +1,4 @@
-<% if(review.author) { %>
+
 <div>
     Author: <%= review.author.username %>
     <br>
@@ -41,13 +41,12 @@
         <input class="btn btn-primary" type="submit" value="Update">
     </form>
 
+    <%- include('./form-modal', { action: `/decks/${deck.id}/reviews/${review.id}?_method=DELETE`, target: 'delReviewWarning', title: 'Warning', text: 'Your review will be deleted forever. Are you sure?', btnText: 'Delete', btnClass: 'btn-danger' }) %>
     <div>
         <button class="toggle-edit-form btn btn-secondary">Edit</button>
 
         <div class="btn btn-delete">
-            <form action="/decks/<%= deck.id %>/reviews/<%= review.id %>?_method=DELETE" method="POST">
-                <input type="submit" value="Delete" class="btn btn-danger">
-            </form>
+            <button class="btn btn-danger" role="button" data-toggle="modal" data-target="#delReviewWarning">Delete</button>
         </div>
     </div>
     
@@ -56,4 +55,3 @@
     </script>
 <% } %>
 <hr>
-<% } %>

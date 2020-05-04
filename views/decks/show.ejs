@@ -9,10 +9,22 @@
 <% if(deck.cards.length < 1) { %>
     <p>This deck still doesn't have any cards!</p>
 <% } else { %>
-    <div class="card-grid">
-    <% deck.cards.forEach(function(card, i) { %>
-        <%- include('../partials/card', { card, i }) %>
-    <% }); %>
+    <div class="form-group">
+        <label for="viewCtrl">View</label>
+        <select id="viewCtrl" class="form-control">
+            <option selected value="card">Cards</option>
+            <option value="list">List</option>
+        </select>
+    </div>
+    <div class="card-grid show">
+        <% deck.cards.forEach(function(card, i) { %>
+            <%- include('../partials/card', { card, i }) %>
+        <% }); %>
+    </div>
+    <div class="card-list">
+        <% deck.cards.forEach(function(card, i) { %>
+            <%- include('../partials/card', { card, i }) %>
+        <% }); %>
     </div>
 <% } %>
 
@@ -59,7 +71,7 @@
     <% let page = 0; %>
     <% for(let i = 0; i < deck.reviews.length; i++) { %>
         <% if(i % 12 === 0) { %>
-            <div class="review-page-<%= ++page %>">
+            <div class="review-page-<%= ++page %> <%=page === 1 ? 'show' : ''%>">
         <% } %>
         <%- include('../partials/review', { review: deck.reviews[i] }) %>
         <% if(i % 12 === 11) { %>

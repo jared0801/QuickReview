@@ -10,3 +10,14 @@ $('.clear-rating').click(function() {
     $(this).siblings('.starability-basic').find('#rate0').click();
     $(this).siblings('.starability-basic').find('#edit-rate0').click();
 });
+
+$('#viewCtrl').change(function(e) {
+    state = e.target.selectedOptions[0].value;
+    if(state === 'card') {
+        $('.card-list').removeClass('show');
+        $('.card-grid').addClass('show');
+    } else {
+        $('.card-grid').removeClass('show');
+        $('.card-list').addClass('show');
+    }
+});
