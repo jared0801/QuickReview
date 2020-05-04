@@ -130,6 +130,7 @@ main.container {
   flex-grow: 1;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 1rem;
 }
 
 .deck-buttons {
@@ -156,6 +157,10 @@ main.container {
   label {
     font-size: 85%;
   }
+}
+
+.starability-result {
+  min-height: 30px;
 }
 
 // Deck header partial styles

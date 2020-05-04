@@ -100,8 +100,13 @@ const middleware = {
                 ]});
             }
             if(avgRating) {
-                publicDbQueries.push({ avgRating: { $in: avgRating }});
-                privateDbQueries.push({ avgRating: { $in: avgRating }});
+                const ratingQuery = [];
+                // { avgRating : { $gt : Math.floor(avgRating), $lt : Math.ceil(avgRating)}}
+                for(const rating of avgRating) {
+                    ratingQuery.push({ avgRating : { $gt : rating, $lt : rating+1}});
+                }
+                publicDbQueries.push({ $or: ratingQuery });
+                privateDbQueries.push({ $or: ratingQuery });
             }
         }
         res.locals.publicDbQuery = publicDbQueries.length ? { $and: publicDbQueries } : publicDbQueries[0];
