@@ -2,8 +2,8 @@
 <h1><%= title %></h1>
 
 <% if(currentUser) { %>
-    <div class="mb-3">
-        <a href="/decks/new">
+    <div class="mb-2">
+        <a class="btn btn-link px-0" href="/decks/new">
             <i class="fas fa-plus"></i>
             Create a new deck
         </a>
@@ -11,6 +11,8 @@
 <% } %>
 
 <% include ../partials/paginate-decks %>
+
+<%- include('../partials/search-filter', { private: typeof private !== 'undefined' ? private : false }) %>
 
 <div class="deck-grid">
     <% decks.docs.forEach(function(deck) { %>
@@ -23,7 +25,23 @@
                     <img width="200" src="<%= deck.image.url %>" alt="<%= deck.title %>">
                 <% } %>
                 <h1><%= deck.title %></h1>
+
+                <% if(deck.avgRating) { %>
+                <div class="starability-result" data-rating="<%= Math.round(deck.avgRating * 2) / 2; %>">
+                    Rated: <%= Math.round(deck.avgRating * 2) / 2; %> stars
+                </div>
+                <% } %>
+
                 <div class="deck-desc"><%= deck.description %></div>
+                <div class="subjects">
+                    <% for(let i = 0; i < deck.subjects.length; i++) { %>
+                        <% if(i >= 5) { %>
+                            ...
+                            <% break; %>
+                        <% } %>
+                        <div class="badge badge-secondary"><%= deck.subjects[i] %></div>
+                    <% } %>
+                </div>
                 <div class="deck-buttons">
                     <div class="btn btn-primary">
                         View Deck
@@ -34,4 +52,6 @@
     <% }); %>
 </div>
 
+
 <% include ../partials/paginate-decks %>
+<script src="/javascripts/deck-index.js"></script>

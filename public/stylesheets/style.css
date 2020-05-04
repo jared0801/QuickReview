@@ -10905,6 +10905,35 @@ main.container {
   margin: 1rem 0 0 0;
 }
 
+.search-form {
+  border-radius: 1em;
+}
+
+.form-fields {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.form-fields .form-group {
+  min-width: 400px;
+}
+
+.rating-field legend {
+  margin-bottom: 0.8rem;
+}
+
+.rating-field label {
+  font-size: 85%;
+}
+
 .deck-header-info {
   -webkit-box-flex: 2;
       -ms-flex-positive: 2;
@@ -11022,6 +11051,14 @@ main.container {
   padding: 1em;
 }
 
+div[class^="review-page-"] {
+  display: none;
+}
+
+div[class^="review-page-"].show {
+  display: block;
+}
+
 .review-control-box {
   background-color: white;
   -webkit-box-pack: justify;
@@ -11043,6 +11080,17 @@ main.container {
   text-align: center;
   border-radius: 1rem;
   background-color: #f8f9fa;
+}
+
+.card-content {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.card-label {
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .card-form-close {

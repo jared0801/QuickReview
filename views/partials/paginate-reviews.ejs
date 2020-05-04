@@ -1,0 +1,40 @@
+<% reviews.totalPages = Math.ceil(reviews.length / 12);
+reviews.page = 1;
+reviews.hasPrevPage = reviews.page-1 > 0;
+reviews.hasNextPage = reviews.page+1 <= reviews.totalPages;
+reviews.prevPage = reviews.page-1;
+reviews.nextPage = reviews.page+1; %>
+<% if(reviews.totalPages > 1) { %>
+
+    <ul class="pagination">    
+        <li class="page-item ctrl-item">
+            <button class="page-link <% if(!reviews.hasPrevPage) { %> disabled<% } %>" role="button" type="button" id="start-link">
+                <i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i>
+            </button>
+        </li>
+        <li class="page-item ctrl-item">
+            <button class="page-link <% if(!reviews.hasPrevPage) { %> disabled<% } %>" role="button" type="button" id="prev-link">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        </li>
+        <% for(let i = 1; i <= reviews.totalPages; i++) { %>
+            <li class="page-item">
+                <button role="button" type="button" page="<%=i%>"
+                class="page-link page-<%=i%> <%= i === reviews.page ? 'active' : '' %>"
+                ><%= i %></button>
+            </li>
+        <% } %>
+        <li class="page-item ctrl-item">
+            <button class="page-link <% if(!reviews.hasNextPage) { %> disabled<% } %>" role="button" type="button" id="next-link"><i class="fas fa-chevron-right"></i></button>
+        </li>
+        <li class="page-item ctrl-item">
+            <button class="page-link <% if(!reviews.hasNextPage) { %> disabled<% } %>" role="button" type="button" id="last-link"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></button>
+        </li>
+    </ul>
+    <% } %>
+
+    <script type="text/javascript">
+        const totalPages = <%- reviews.totalPages %>
+    </script>
+    
+    <script src="/javascripts/paginate-reviews.js"></script>

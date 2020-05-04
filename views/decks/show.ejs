@@ -53,9 +53,19 @@
 <% if(deck.reviews.length < 1) { %>
     <p>This deck still hasn't been reviewed!</p>
 <% } else { %>
-<% deck.reviews.forEach(function(review) { %>
-    <%- include('../partials/review', { review }) %>
-<% }); %>
+    <% if(deck.reviews.length > 12) { %>
+        <%- include('../partials/paginate-reviews', { reviews: deck.reviews }) %>
+    <% } %>
+    <% let page = 0; %>
+    <% for(let i = 0; i < deck.reviews.length; i++) { %>
+        <% if(i % 12 === 0) { %>
+            <div class="review-page-<%= ++page %>">
+        <% } %>
+        <%- include('../partials/review', { review: deck.reviews[i] }) %>
+        <% if(i % 12 === 11) { %>
+            </div>
+        <% } %>
+    <% } %>
 <% } %>
 
 

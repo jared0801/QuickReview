@@ -136,6 +136,28 @@ main.container {
   margin: 1rem 0 0 0;
 }
 
+.search-form {
+  border-radius: 1em;
+}
+
+.form-fields {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  .form-group {
+    min-width: 400px;
+  }
+}
+
+.rating-field {
+  legend {
+    margin-bottom: 0.8rem;
+  }
+  label {
+    font-size: 85%;
+  }
+}
+
 // Deck header partial styles
 .deck-header-info {
   flex-grow: 2;
@@ -235,6 +257,13 @@ main.container {
   padding: 1em;
 }
 
+div[class^="review-page-"] {
+  display: none;
+}
+div[class^="review-page-"].show {
+  display: block;
+}
+
 .review-control-box {
   background-color: white;
   justify-content: space-between;
@@ -252,6 +281,15 @@ main.container {
   text-align: center;
   border-radius: 1rem;
   background-color: $light;
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+.card-label {
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .card-form-close {

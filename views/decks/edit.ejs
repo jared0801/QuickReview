@@ -12,6 +12,14 @@
         <textarea class="form-control" name="deck[description]" placeholder="Description" rows="5" id="description-input"><%= deck.description %></textarea>
     </div>
     <div class="form-group">
+        <label for="title-subjects">Subject Tags</label>
+        <input class="form-control" type="text" name="deck[subjects]" placeholder="Subjects" id="subject-input" pattern="^[0-9a-zA-z ]+(,([0-9a-zA-z ])+)*" value="<%= deck.subjects.join(', ') %>">
+        <small class="form-text text-muted">Optional</small>
+        <small class="form-text text-muted">Separate each subject with a comma.</small>
+        <small class="form-text text-muted">Alphanumeric characters only. Subjects are not case sensitive.</small>
+    </div>
+
+    <div class="form-group">
         <label for="image-input">Image</label>
         <input class="form-control-file" type="file" accept="images/*" name="image" id="image-input">
         <small class="form-text text-muted">Optional</small>

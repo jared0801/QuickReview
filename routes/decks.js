@@ -6,7 +6,8 @@ const upload = multer({ storage });
 const {
   asyncErrorHandler,
   isLoggedIn,
-  isAuthor
+  isAuthor,
+  searchAndFilterDecks
 } = require('../middleware');
 
 const { 
@@ -24,10 +25,10 @@ const {
 
 
 /* GET decks index /decks */
-router.get('/', asyncErrorHandler(deckIndex));
+router.get('/', asyncErrorHandler(searchAndFilterDecks), asyncErrorHandler(deckIndex));
 
 /* GET decks index /decks/mine */
-router.get('/mine', isLoggedIn, asyncErrorHandler(deckMine));
+router.get('/mine', isLoggedIn, asyncErrorHandler(searchAndFilterDecks), asyncErrorHandler(deckMine));
 
 /* GET decks new /decks/new */
 router.get('/new', isLoggedIn, deckNew);

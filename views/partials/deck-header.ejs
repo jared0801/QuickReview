@@ -13,6 +13,13 @@
             <div class="deck-header-info">
                 <div><%= deck.description %></div>
                 <br>
+                <% if(deck.subjects && deck.subjects.length) { %>
+                    <div>
+                        Subjects: 
+                        <% deck.subjects.forEach(function(subj, i) { %><%= i > 0 ? ', ' : '' %><%= subj %><% }); %>
+                    </div>
+                    <br>
+                <% } %>
                 <div>
                     Average Rating: <%= deck.avgRating %>
                     <p class="starability-result" data-rating="<%= roundedAvgRating %>">

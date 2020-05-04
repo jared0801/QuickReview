@@ -2,29 +2,34 @@
 
 <%  const NEIGHBOR_PAGES = 3;
     let start = Math.max(1, decks.page-NEIGHBOR_PAGES);
-    let end = Math.min(decks.totalPages, decks.page+NEIGHBOR_PAGES);
-    if(end === decks.totalPages && end-start < NEIGHBOR_PAGES*2) start = end-(NEIGHBOR_PAGES*2-1);
+    let end;
+    if(decks.page <= NEIGHBOR_PAGES) {
+        end = Math.min(start + 2*NEIGHBOR_PAGES, decks.totalPages);
+    } else {
+        end = Math.min(decks.page + NEIGHBOR_PAGES, decks.totalPages);
+    }
+    if(end - start <= NEIGHBOR_PAGES*2) start = Math.max(1, end - NEIGHBOR_PAGES*2);
 %>
 
 <ul class="pagination">    
     <li class="page-item ctrl-item">
-        <a class="page-link <% if(!decks.hasPrevPage) { %> disabled<% } %>" role="button" type="button" href="/decks?page=1">
+        <a class="page-link <% if(!decks.hasPrevPage) { %> disabled<% } %>" role="button" type="button" href="<%= paginateUrl %>1">
             <i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i>
         </a>
     </li>
     <li class="page-item ctrl-item">
-        <a class="page-link <% if(!decks.hasPrevPage) { %> disabled<% } %>" role="button" type="button" href="/decks?page=<%= decks.prevPage %>">
+        <a class="page-link <% if(!decks.hasPrevPage) { %> disabled<% } %>" role="button" type="button" href="<%= paginateUrl %><%= decks.prevPage %>">
             <i class="fas fa-chevron-left"></i>
         </a>
     </li>
     <% if(decks.page > 2){ %>
         <li class="page-item ctrl-item <%= decks.page-NEIGHBOR_PAGES <= 1 ? 'mobile-only' : '' %>">
-            <a class="page-link" role="button" type="button" href="/decks?page=<%= decks.prevPage %>">...</a>
+            <a class="page-link" role="button" type="button" href="<%= paginateUrl %><%= decks.prevPage %>">...</a>
         </li>
     <% } %>
-    <% for(let i = start; i <= end || i <= NEIGHBOR_PAGES*2; i++) { %>
+    <% for(let i = start; i <= end; i++) { %>
         <li class="page-item <% if((i <= decks.page+1 && i >= decks.page-1) || (decks.page === 1 && i === 3) || (decks.page === decks.totalPages && i == decks.totalPages-2)) { %>important<% } %>">
-            <a role="button" type="button" href="/decks?page=<%= i %>"
+            <a role="button" type="button" href="<%= paginateUrl %><%= i %>"
             class="page-link <%= i === decks.page ? 'active' : '' %>"
             >
                 <%= i %>
@@ -33,29 +38,16 @@
     <% } %>
     <% if(decks.page < decks.totalPages-1) { %>
         <li class="page-item ctrl-item <%= decks.page+NEIGHBOR_PAGES >= decks.totalPages ? 'mobile-only' : '' %>">
-            <a class="page-link" role="button" type="button" href="/decks?page=<%= decks.nextPage %>">...</a>
+            <a class="page-link" role="button" type="button" href="<%= paginateUrl %><%= decks.nextPage %>">...</a>
         </li>
     <% } %>
     <li class="page-item ctrl-item">
-        <a class="page-link <% if(!decks.hasNextPage) { %> disabled<% } %>" role="button" type="button" href="/decks?page=<%= decks.nextPage %>"><i class="fas fa-chevron-right"></i></a>
+        <a class="page-link <% if(!decks.hasNextPage) { %> disabled<% } %>" role="button" type="button" href="<%= paginateUrl %><%= decks.nextPage %>"><i class="fas fa-chevron-right"></i></a>
     </li>
     <li class="page-item ctrl-item">
-        <a class="page-link <% if(!decks.hasNextPage) { %> disabled<% } %>" role="button" type="button" href="/decks?page=<%= decks.totalPages %>"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></a>
+        <a class="page-link <% if(!decks.hasNextPage) { %> disabled<% } %>" role="button" type="button" href="<%= paginateUrl %><%= decks.totalPages %>"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></a>
     </li>
 </ul>
 <% } %>
 
-<script>
-    $(document).ready(() => {
-        const disabledLink = $('.page-link.disabled');
-        
-        disabledLink.attr('href', '');
-        disabledLink.attr('aria-disabled', 'true');
-        disabledLink.attr('tabindex', '-1');
-
-        disabledLink.click(function(e) {
-            e.preventDefault();
-            return false;
-        });
-    });
-</script>
+<script src="/javascripts/paginate-decks.js"></script>

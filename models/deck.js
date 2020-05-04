@@ -6,6 +6,7 @@ Deck
 - image: { url: String, public_id: String }
 - reviews - [object id (ref review)]
 - cards - [object id (ref card)]
+- subjects - [{ name: String }]
 - avgRating - number
 - created - date
 - public - boolean
@@ -39,6 +40,11 @@ const DeckSchema = new Schema({
 			type: Schema.Types.ObjectId,
 			ref: 'Card'
 		}
+    ],
+    subjects: [
+        {
+            type: String,
+        }
     ],
     avgRating: { 
         type: Number,
