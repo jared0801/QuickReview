@@ -299,8 +299,20 @@ div[class^="review-page-"].show {
     flex-direction: row;
     margin-bottom: 1rem;
   }
-  .card-controls .btn {
-    display: block;
+  .card-controls {
+    .btn {
+      display: block;
+    }
+  }
+}
+
+.card-controls {
+  margin: 0 1rem;
+  .btn {
+    span {
+      font-size: 80%;
+    }
+    min-width: 6rem;
   }
 }
 
@@ -334,7 +346,11 @@ div[id^="card"] {
 }
 
 .card-list {
+  background-color: #f8f9fa;
   display: none;
+  .card {
+    border: none;
+  }
   &.show {
     display: block;
   }
@@ -393,6 +409,9 @@ div[id^="card"] {
 @include media-breakpoint-down(sm) {
   .card-grid, .deck-grid {
     grid-template-columns: 1fr;
+  }
+  .card-controls .btn {
+    min-width: 3rem;
   }
 }
 

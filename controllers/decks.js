@@ -15,7 +15,7 @@ module.exports = {
             sort: '-created'
         });
         if(!decks.docs.length && res.locals.query) {
-            res.locals.error = "No results match that query.";
+            res.locals.error = "No decks were found. Try more general search parameters.";
         }
         res.render('decks/index', { decks, title: 'Deck List' });
     },

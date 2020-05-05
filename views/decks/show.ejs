@@ -1,6 +1,6 @@
-<% layout('layouts/boilerplate') -%>
+<% layout('layouts/template') -%>
 
-<%- include('../partials/deck-header', { deck }) %>
+<%- include('../partials/decks/show/header', { deck }) %>
 
 <br>
 <br>
@@ -18,12 +18,12 @@
     </div>
     <div class="card-grid show">
         <% deck.cards.forEach(function(card, i) { %>
-            <%- include('../partials/card', { card, i }) %>
+            <%- include('../partials/decks/show/card', { card, i, list:false }) %>
         <% }); %>
     </div>
     <div class="card-list">
         <% deck.cards.forEach(function(card, i) { %>
-            <%- include('../partials/card', { card, i }) %>
+            <%- include('../partials/decks/show/card', { card, i, list: true }) %>
         <% }); %>
     </div>
 <% } %>
@@ -66,14 +66,14 @@
     <p>This deck still hasn't been reviewed!</p>
 <% } else { %>
     <% if(deck.reviews.length > 12) { %>
-        <%- include('../partials/paginate-reviews', { reviews: deck.reviews }) %>
+        <%- include('../partials/paginate/reviews', { reviews: deck.reviews }) %>
     <% } %>
     <% let page = 0; %>
     <% for(let i = 0; i < deck.reviews.length; i++) { %>
         <% if(i % 12 === 0) { %>
             <div class="review-page-<%= ++page %> <%=page === 1 ? 'show' : ''%>">
         <% } %>
-        <%- include('../partials/review', { review: deck.reviews[i] }) %>
+        <%- include('../partials/decks/show/review', { review: deck.reviews[i] }) %>
         <% if(i % 12 === 11) { %>
             </div>
         <% } %>
@@ -81,4 +81,4 @@
 <% } %>
 
 
-<script src="/javascripts/deck-show.js"></script>
+<script src="/javascripts/decks/show.js"></script>

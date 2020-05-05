@@ -11109,6 +11109,18 @@ div[class^="review-page-"].show {
   display: block;
 }
 
+.card-controls {
+  margin: 0 1rem;
+}
+
+.card-controls .btn {
+  min-width: 6rem;
+}
+
+.card-controls .btn span {
+  font-size: 80%;
+}
+
 .card-label {
   font-weight: bold;
   text-decoration: underline;
@@ -11144,7 +11156,12 @@ div[id^="card"] {
 }
 
 .card-list {
+  background-color: #f8f9fa;
   display: none;
+}
+
+.card-list .card {
+  border: none;
 }
 
 .card-list.show {
@@ -11196,6 +11213,9 @@ div[id^="card"] {
   .card-grid, .deck-grid {
     -ms-grid-columns: 1fr;
         grid-template-columns: 1fr;
+  }
+  .card-controls .btn {
+    min-width: 3rem;
   }
 }
 

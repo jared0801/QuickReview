@@ -1,4 +1,4 @@
-<% layout('layouts/boilerplate') -%>
+<% layout('layouts/template') -%>
 <h1><%= title %></h1>
 
 <% if(currentUser) { %>
@@ -10,9 +10,9 @@
     </div>
 <% } %>
 
-<% include ../partials/paginate-decks %>
+<% include ../partials/paginate/decks %>
 
-<%- include('../partials/search-filter', { private: typeof private !== 'undefined' ? private : false }) %>
+<%- include('../partials/decks/search-filter', { private: typeof private !== 'undefined' ? private : false }) %>
 
 <div class="deck-grid">
     <% decks.docs.forEach(function(deck) { %>
@@ -53,5 +53,4 @@
 </div>
 
 
-<% include ../partials/paginate-decks %>
-<script src="/javascripts/deck-index.js"></script>
+<% include ../partials/paginate/decks %>
