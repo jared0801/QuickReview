@@ -127,6 +127,10 @@ module.exports = {
                 }
             }
 
+            // Update title & description
+            deck.title = req.body.deck.title;
+            deck.description = req.body.deck.description;
+
             // Update deck's public/private status
             if(req.body.accessRadio === 'public') deck.public = true;
             else deck.public = false;
