@@ -87,23 +87,31 @@ const middleware = {
             let { search, avgRating } = req.query;
 
             if(search) {
+                const searchTerms = search.split(' ').map(t => escapeRegExp(t));
                 search = new RegExp(escapeRegExp(search), 'gi');
-                publicDbQueries.push({ $or: [
+
+                const query = { $or: [
                     { title: search },
                     { description: search },
-                    { subjects: { $all: [search] } }
-                ]});
-                privateDbQueries.push({ $or: [
-                    { title: search },
-                    { description: search },
-                    { subjects: { $all: [search] } }
-                ]});
+                    { $or: [  ] }
+                ]};
+                // Search subjects for each token of the search query
+                searchTerms.forEach(t => {
+                    query.$or[2].$or.push({ subjects: t });
+                })
+                
+                publicDbQueries.push(query);
+                privateDbQueries.push(query);
             }
             if(avgRating) {
                 const ratingQuery = [];
-                // { avgRating : { $gt : Math.floor(avgRating), $lt : Math.ceil(avgRating)}}
-                for(const rating of avgRating) {
-                    ratingQuery.push({ avgRating : { $gt : rating, $lt : rating+1}});
+                for(let rating of avgRating) {
+                    rating = Number.parseInt(rating);
+                    ratingQuery.push({
+                        avgRating: {
+                            $gte : rating, $lt : rating+1
+                        }
+                    });
                 }
                 publicDbQueries.push({ $or: ratingQuery });
                 privateDbQueries.push({ $or: ratingQuery });

@@ -115,6 +115,7 @@ DeckSchema.pre('deleteMany', async function() {
 });
 
 DeckSchema.plugin(mongoosePaginate);
+DeckSchema.index({ subjects: 'text' });
 
 // Any deck document can call this function
 DeckSchema.methods.calculateAvgRating = function() {
