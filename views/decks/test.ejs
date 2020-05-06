@@ -1,19 +1,19 @@
 <% layout('layouts/template') -%>
 
 
-<div>
-    <div class="animated alert alert-success text-center mt-5 fade" id="correct-display">
-        Good job!
-    </div>
-    <div class="animated alert alert-danger text-center mt-5 fade" id="incorrect-display">
-        Try again!
-        <div class="btn btn-danger" role="button" id="skip-one">Skip?</div>
-    </div>
-</div>
-
 <a class="text-dark" href="/decks/<%= deck.id %>"><h1><%= deck.title %></h1></a>
 
 <div id="test-form" class="text-center card">
+    <div>
+        <div class="animated alert alert-success text-center fade" id="correct-display">
+            Good job!
+        </div>
+        <div class="animated alert alert-danger text-center fade" id="incorrect-display">
+            Try again!
+            <div class="btn btn-danger" role="button" id="skip-one">Skip?</div>
+        </div>
+    </div>
+
     <div>
         <img src="" width="200" id="image" />
         <div class="alert alert-danger" id="incorrect-count"></div>
