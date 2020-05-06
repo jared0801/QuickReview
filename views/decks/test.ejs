@@ -1,5 +1,16 @@
 <% layout('layouts/template') -%>
 
+
+<div>
+    <div class="animated alert alert-success text-center mt-5 fade" id="correct-display">
+        Good job!
+    </div>
+    <div class="animated alert alert-danger text-center mt-5 fade" id="incorrect-display">
+        Try again!
+        <div class="btn btn-danger" role="button" id="skip-one">Skip?</div>
+    </div>
+</div>
+
 <a class="text-dark" href="/decks/<%= deck.id %>"><h1><%= deck.title %></h1></a>
 
 <div id="test-form" class="text-center card">
@@ -17,16 +28,6 @@
     <div class="button-group">
         <a class="btn btn-primary" href="/decks/<%= deck.id %>">View Deck</a>
         <a class="btn btn-secondary" href="/decks/<%= deck.id %>/test">Try Again</a>
-    </div>
-</div>
-
-<div>
-    <div class="animated alert alert-success text-center mt-5 fade" id="correct-display">
-        Good job!
-    </div>
-    <div class="animated alert alert-danger text-center mt-5 fade" id="incorrect-display">
-        Try again!
-        <div class="btn btn-danger" role="button" id="skip-one">Skip?</div>
     </div>
 </div>
 
