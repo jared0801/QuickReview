@@ -10921,9 +10921,15 @@ main.container {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .form-fields .form-group {
+  margin: 0 auto 1rem 0;
+}
+
+.form-fields #search {
   min-width: 400px;
 }
 

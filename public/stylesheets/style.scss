@@ -145,7 +145,11 @@ main.container {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  flex-wrap: wrap;
   .form-group {
+    margin: 0 auto 1rem 0;
+  }
+  #search {
     min-width: 400px;
   }
 }
